@@ -28,117 +28,96 @@ partial class SubscriptionDetailForm
         _lblStavVal = new Label();
         SuspendLayout();
 
-        const int lx = 12, lw = 160, cx = 180, vw = 320, rowH = 30;
-
-        void AddLabel(Control parent, string text, int y)
-        {
-            var lbl = new Label
-            {
-                Text = text, Left = lx, Top = y,
-                Width = lw, Height = 23,
-                TextAlign = ContentAlignment.MiddleRight,
-                Font = new Font(Font, FontStyle.Bold)
-            };
-            parent.Controls.Add(lbl);
-        }
-
-        int y = 16;
+        const int lx = 12, lw = 160, cx = 180, vw = 320;
 
         // Firma
-        AddLabel(this, "Firma:", y);
-        _lblFirmaVal.Left = cx; _lblFirmaVal.Top = y; _lblFirmaVal.Width = vw; _lblFirmaVal.Height = 23;
+        var lblFirma = new Label { Text = "Firma:", Left = lx, Top = 16, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblFirmaVal.Left = cx; _lblFirmaVal.Top = 16; _lblFirmaVal.Width = vw; _lblFirmaVal.Height = 23;
         _lblFirmaVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH;
 
         // Email
-        AddLabel(this, "E-mail:", y);
-        _lblEmailVal.Left = cx; _lblEmailVal.Top = y; _lblEmailVal.Width = vw; _lblEmailVal.Height = 23;
+        var lblEmail = new Label { Text = "E-mail:", Left = lx, Top = 46, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblEmailVal.Left = cx; _lblEmailVal.Top = 46; _lblEmailVal.Width = vw; _lblEmailVal.Height = 23;
         _lblEmailVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH + 6;
 
         // Separator
-        var sep = new Label { Left = lx, Top = y, Width = cx + vw, Height = 1, BorderStyle = BorderStyle.Fixed3D };
-        Controls.Add(sep);
-        y += 10;
+        var sep = new Label { Left = lx, Top = 82, Width = cx + vw, Height = 1, BorderStyle = BorderStyle.Fixed3D };
 
         // Od
-        AddLabel(this, "Od:", y);
-        _lblOdVal.Left = cx; _lblOdVal.Top = y; _lblOdVal.Width = vw; _lblOdVal.Height = 23;
+        var lblOd = new Label { Text = "Od:", Left = lx, Top = 92, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblOdVal.Left = cx; _lblOdVal.Top = 92; _lblOdVal.Width = vw; _lblOdVal.Height = 23;
         _lblOdVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH;
 
         // Do
-        AddLabel(this, "Do:", y);
-        _lblDoVal.Left = cx; _lblDoVal.Top = y; _lblDoVal.Width = vw; _lblDoVal.Height = 23;
+        var lblDo = new Label { Text = "Do:", Left = lx, Top = 122, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblDoVal.Left = cx; _lblDoVal.Top = 122; _lblDoVal.Width = vw; _lblDoVal.Height = 23;
         _lblDoVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH;
 
-        // Var. symbol
-        AddLabel(this, "Variabilní symbol:", y);
-        _lblVarSymVal.Left = cx; _lblVarSymVal.Top = y; _lblVarSymVal.Width = vw; _lblVarSymVal.Height = 23;
+        // Variabilní symbol
+        var lblVarSym = new Label { Text = "Variabilní symbol:", Left = lx, Top = 152, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblVarSymVal.Left = cx; _lblVarSymVal.Top = 152; _lblVarSymVal.Width = vw; _lblVarSymVal.Height = 23;
         _lblVarSymVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH;
 
-        // Datum obj.
-        AddLabel(this, "Datum objednávky:", y);
-        _lblDatumObjVal.Left = cx; _lblDatumObjVal.Top = y; _lblDatumObjVal.Width = vw; _lblDatumObjVal.Height = 23;
+        // Datum objednávky
+        var lblDatumObj = new Label { Text = "Datum objednávky:", Left = lx, Top = 182, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblDatumObjVal.Left = cx; _lblDatumObjVal.Top = 182; _lblDatumObjVal.Width = vw; _lblDatumObjVal.Height = 23;
         _lblDatumObjVal.TextAlign = ContentAlignment.MiddleLeft;
-        y += rowH;
 
         // Zaplaceno
-        AddLabel(this, "Zaplaceno:", y);
-        _lblZaplacenoVal.Left = cx; _lblZaplacenoVal.Top = y; _lblZaplacenoVal.Width = vw; _lblZaplacenoVal.Height = 23;
+        var lblZaplaceno = new Label { Text = "Zaplaceno:", Left = lx, Top = 212, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblZaplacenoVal.Left = cx; _lblZaplacenoVal.Top = 212; _lblZaplacenoVal.Width = vw; _lblZaplacenoVal.Height = 23;
         _lblZaplacenoVal.TextAlign = ContentAlignment.MiddleLeft;
         _lblZaplacenoVal.Font = new Font(Font, FontStyle.Bold);
-        y += rowH;
 
         // Stav
-        AddLabel(this, "Stav:", y);
-        _lblStavVal.Left = cx; _lblStavVal.Top = y; _lblStavVal.Width = vw; _lblStavVal.Height = 23;
+        var lblStav = new Label { Text = "Stav:", Left = lx, Top = 242, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight, Font = new Font(Font, FontStyle.Bold) };
+        _lblStavVal.Left = cx; _lblStavVal.Top = 242; _lblStavVal.Width = vw; _lblStavVal.Height = 23;
         _lblStavVal.TextAlign = ContentAlignment.MiddleLeft;
         _lblStavVal.Font = new Font(Font, FontStyle.Bold);
-        y += rowH + 16;
 
         // Buttons – row 1
         _btnMarkPaid.Text = "Označit jako zaplacené";
-        _btnMarkPaid.Left = lx; _btnMarkPaid.Top = y;
+        _btnMarkPaid.Left = lx; _btnMarkPaid.Top = 288;
         _btnMarkPaid.Width = 160; _btnMarkPaid.Height = 28;
         _btnMarkPaid.Click += BtnMarkPaid_Click;
 
         _btnUnmarkPaid.Text = "Zrušit zaplacení";
-        _btnUnmarkPaid.Left = lx + 168; _btnUnmarkPaid.Top = y;
+        _btnUnmarkPaid.Left = lx + 168; _btnUnmarkPaid.Top = 288;
         _btnUnmarkPaid.Width = 120; _btnUnmarkPaid.Height = 28;
         _btnUnmarkPaid.Click += BtnUnmarkPaid_Click;
 
         _btnEdit.Text = "Upravit";
-        _btnEdit.Left = lx + 296; _btnEdit.Top = y;
+        _btnEdit.Left = lx + 296; _btnEdit.Top = 288;
         _btnEdit.Width = 90; _btnEdit.Height = 28;
         _btnEdit.Click += BtnEdit_Click;
 
-        y += 36;
-
         // Buttons – row 2
         _btnOpenUser.Text = "Otevřít uživatele";
-        _btnOpenUser.Left = lx; _btnOpenUser.Top = y;
+        _btnOpenUser.Left = lx; _btnOpenUser.Top = 324;
         _btnOpenUser.Width = 140; _btnOpenUser.Height = 28;
         _btnOpenUser.Click += BtnOpenUser_Click;
 
         _btnClose.Text = "Zavřít";
-        _btnClose.Left = lx + 148; _btnClose.Top = y;
+        _btnClose.Left = lx + 148; _btnClose.Top = 324;
         _btnClose.Width = 90; _btnClose.Height = 28;
         _btnClose.Click += BtnClose_Click;
 
-        y += 40;
-
         Controls.AddRange(new Control[] {
-            _lblFirmaVal, _lblEmailVal,
-            _lblOdVal, _lblDoVal, _lblVarSymVal, _lblDatumObjVal, _lblZaplacenoVal, _lblStavVal,
+            lblFirma, _lblFirmaVal,
+            lblEmail, _lblEmailVal,
+            sep,
+            lblOd, _lblOdVal,
+            lblDo, _lblDoVal,
+            lblVarSym, _lblVarSymVal,
+            lblDatumObj, _lblDatumObjVal,
+            lblZaplaceno, _lblZaplacenoVal,
+            lblStav, _lblStavVal,
             _btnMarkPaid, _btnUnmarkPaid, _btnEdit, _btnOpenUser, _btnClose
         });
 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(520, y);
+        ClientSize = new Size(520, 364);
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
         MinimizeBox = false;

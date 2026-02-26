@@ -58,14 +58,17 @@ V `.csproj`:
 <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 ```
 
-### Zákaz lambd v Designer.cs
+### Zákaz lambd a lokálních funkcí v Designer.cs
 
-**V `*.Designer.cs` nesmí být žádné lambda výrazy.** VS Designer je neumí zpracovat.
+**V `*.Designer.cs` nesmí být žádné lambda výrazy ani lokální funkce.** VS Designer je neumí zpracovat.
 
 Místo:
 ```csharp
 // ŠPATNĚ – nesmí být v Designer.cs
 _btn.Click += (_, _) => DoSomething();
+
+// ŠPATNĚ – lokální funkce také nesmí být v Designer.cs
+void AddLabel(Control parent, string text, int y) { ... }
 ```
 
 Vždy:
