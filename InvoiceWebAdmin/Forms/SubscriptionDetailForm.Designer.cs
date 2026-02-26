@@ -103,10 +103,7 @@ partial class SubscriptionDetailForm
 
         // _dtObjednavky
         _dtObjednavky.Left = 180; _dtObjednavky.Top = 192; _dtObjednavky.Width = 200;
-        _dtObjednavky.Format = DateTimePickerFormat.Custom;
-        _dtObjednavky.CustomFormat = "d.M.yyyy";
-        _dtObjednavky.ShowCheckBox = true;
-        _dtObjednavky.Checked = false;
+        _dtObjednavky.Format = DateTimePickerFormat.Short;
 
         // _lblNoteCaption
         _lblNoteCaption.Text = "Poznámka:";

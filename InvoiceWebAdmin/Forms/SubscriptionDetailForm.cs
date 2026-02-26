@@ -36,15 +36,7 @@ public partial class SubscriptionDetailForm : Form
         _txtVarSym.Text = _period.VariabilniSymbol ?? "";
         _txtNote.Text = _period.Note ?? "";
 
-        if (_period.DatumObjednavky.HasValue)
-        {
-            _dtObjednavky.Checked = true;
-            _dtObjednavky.Value = _period.DatumObjednavky.Value.ToLocalTime();
-        }
-        else
-        {
-            _dtObjednavky.Checked = false;
-        }
+        _dtObjednavky.Value = _period.DatumObjednavky?.ToLocalTime() ?? DateTime.Now;
 
         _lblZaplacenoVal.Text = _period.Zaplaceno ? "Ano" : "Ne";
         _lblZaplacenoVal.ForeColor = _period.Zaplaceno ? Color.FromArgb(0, 128, 0) : Color.FromArgb(180, 100, 0);
@@ -75,7 +67,7 @@ public partial class SubscriptionDetailForm : Form
         _period.From = from;
         _period.To = to;
         _period.VariabilniSymbol = string.IsNullOrWhiteSpace(_txtVarSym.Text) ? null : _txtVarSym.Text.Trim();
-        _period.DatumObjednavky = _dtObjednavky.Checked ? (DateTime?)_dtObjednavky.Value.ToUniversalTime() : null;
+        _period.DatumObjednavky = _dtObjednavky.Value.ToUniversalTime();
         _period.Note = string.IsNullOrWhiteSpace(_txtNote.Text) ? null : _txtNote.Text.Trim();
         _db.SaveChanges();
         Changed = true;
