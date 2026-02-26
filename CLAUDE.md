@@ -58,22 +58,45 @@ V `.csproj`:
 <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 ```
 
-### Zákaz lambd a lokálních funkcí v Designer.cs
+### Pravidla pro Designer.cs
 
-**V `*.Designer.cs` nesmí být žádné lambda výrazy ani lokální funkce.** VS Designer je neumí zpracovat.
+VS Designer vyžaduje velmi specifický formát `InitializeComponent()`. Porušení způsobí, že se formulář v designeru zobrazí špatně (prvky v levém horním rohu, chybějící popisky).
 
-Místo:
+**Zakázáno v `*.Designer.cs`:**
+
+1. **Lambda výrazy** – designer je neumí parsovat
+2. **Lokální funkce** – designer je neumí parsovat
+3. **Lokální proměnné pro controly** – designer je nevidí jako fieldy formuláře
+4. **Lokální konstanty** – designer je nevyhodnotí, hodnoty zůstanou 0
+
 ```csharp
-// ŠPATNĚ – nesmí být v Designer.cs
+// ŠPATNĚ – lambda
 _btn.Click += (_, _) => DoSomething();
 
-// ŠPATNĚ – lokální funkce také nesmí být v Designer.cs
+// ŠPATNĚ – lokální funkce
 void AddLabel(Control parent, string text, int y) { ... }
+
+// ŠPATNĚ – lokální var pro control (designer ho nevidí)
+var lbl = new Label { Text = "Firma:", Left = 12, Top = 16 };
+
+// ŠPATNĚ – lokální konstanta (designer ji nevyhodnotí → hodnota = 0)
+const int cx = 180;
+_lbl.Left = cx;
 ```
 
-Vždy:
+**Správně:**
+
 ```csharp
-// SPRÁVNĚ v Designer.cs
+// Vše deklarovat jako private fieldy třídy
+private Label _lblFirmaCaption = null!;
+
+// V InitializeComponent() inicializovat a nastavovat přímo na fieldu
+_lblFirmaCaption = new Label();
+_lblFirmaCaption.Text = "Firma:";
+_lblFirmaCaption.Left = 12;   // ← literál, ne konstanta
+_lblFirmaCaption.Top = 16;
+
+// Event handlery pojmenovaně
 _btn.Click += Btn_Click;
 ```
 
