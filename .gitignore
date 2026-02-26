@@ -1,0 +1,21 @@
+## .gitignore pro InvoiceWebAdmin
+
+# Build výstupy
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Rider
+.idea/
+
+# appsettings s lokální cestou k DB (přidej appsettings.local.json pro přepsání)
+# appsettings.json je ve repo záměrně – obsahuje jen placeholder cestu
+
+# OS
+.DS_Store
+Thumbs.db
