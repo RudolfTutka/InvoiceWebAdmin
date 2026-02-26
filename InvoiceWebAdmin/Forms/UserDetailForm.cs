@@ -9,7 +9,7 @@ public partial class UserDetailForm : Form
     private readonly AdminDbContext _db;
     private readonly int _userId;
     private User _user = null!;
-   
+    private List<SubscriptionPeriod> _periods = new();
 
     public UserDetailForm(AdminDbContext db, int userId)
     {
@@ -23,7 +23,6 @@ public partial class UserDetailForm : Form
     {
         _user = _db.Users
             .Include(u => u.CompanySettings)
-            .Include(u => u.SubscriptionPeriods)
             .First(u => u.Id == _userId);
 
         var settings = _db.AdminSettings.FirstOrDefault() ?? new AdminSettings();
@@ -44,9 +43,14 @@ public partial class UserDetailForm : Form
 
     private void LoadPeriods()
     {
+        _periods = _db.SubscriptionPeriods
+            .Where(p => p.UserId == _userId)
+            .OrderByDescending(p => p.From)
+            .ToList();
+
         _gridSubs.Rows.Clear();
         var today = DateOnly.FromDateTime(DateTime.Today);
-        foreach (var p in _user.SubscriptionPeriods.OrderByDescending(p => p.From))
+        foreach (var p in _periods)
         {
             var i = _gridSubs.Rows.Add(
                 p.From.ToString("d.M.yyyy"),
@@ -107,7 +111,7 @@ public partial class UserDetailForm : Form
 
     private void AddPeriod()
     {
-        var lastTo = _user.SubscriptionPeriods
+        var lastTo = _periods
             .OrderByDescending(p => p.To).FirstOrDefault()?.To;
         var defaultFrom = lastTo.HasValue
             ? lastTo.Value.AddDays(1)
@@ -126,7 +130,6 @@ public partial class UserDetailForm : Form
         };
         _db.SubscriptionPeriods.Add(period);
         _db.SaveChanges();
-        _user.SubscriptionPeriods.Add(period);
         LoadPeriods();
     }
 
@@ -134,7 +137,7 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var period = _user.SubscriptionPeriods.First(p => p.Id == id);
+        var period = _periods.First(p => p.Id == id);
 
         using var form = new PeriodEditForm(period, period.From);
         if (form.ShowDialog(this) != DialogResult.OK) return;
@@ -150,7 +153,7 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var period = _user.SubscriptionPeriods.First(p => p.Id == id);
+        var period = _periods.First(p => p.Id == id);
 
         var confirm = MessageBox.Show(
             $"Smazat období {period.From:d.M.yyyy} – {period.To:d.M.yyyy}?",
@@ -159,7 +162,6 @@ public partial class UserDetailForm : Form
 
         _db.SubscriptionPeriods.Remove(period);
         _db.SaveChanges();
-        _user.SubscriptionPeriods.Remove(period);
         LoadPeriods();
     }
 
