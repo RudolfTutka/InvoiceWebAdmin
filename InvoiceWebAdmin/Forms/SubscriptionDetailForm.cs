@@ -29,10 +29,22 @@ public partial class SubscriptionDetailForm : Form
         var firma = _period.User.CompanySettings?.CompanyName ?? _period.User.Email;
         _lblFirmaVal.Text = firma;
         _lblEmailVal.Text = _period.User.Email;
-        _lblOdVal.Text = _period.From.ToString("d.M.yyyy");
-        _lblDoVal.Text = _period.To.ToString("d.M.yyyy");
-        _lblVarSymVal.Text = _period.VariabilniSymbol ?? "–";
-        _lblDatumObjVal.Text = _period.DatumObjednavky?.ToLocalTime().ToString("d.M.yyyy HH:mm") ?? "–";
+
+        _dtFrom.Value = _period.From.ToDateTime(TimeOnly.MinValue);
+        _dtTo.Value = _period.To.ToDateTime(TimeOnly.MinValue);
+        _txtVarSym.Text = _period.VariabilniSymbol ?? "";
+        _txtNote.Text = _period.Note ?? "";
+
+        if (_period.DatumObjednavky.HasValue)
+        {
+            _dtObjednavky.Checked = true;
+            _dtObjednavky.Value = _period.DatumObjednavky.Value.ToLocalTime();
+        }
+        else
+        {
+            _dtObjednavky.Checked = false;
+        }
+
         _lblZaplacenoVal.Text = _period.Zaplaceno ? "Ano" : "Ne";
         _lblZaplacenoVal.ForeColor = _period.Zaplaceno ? Color.FromArgb(0, 128, 0) : Color.FromArgb(180, 100, 0);
 
@@ -49,34 +61,31 @@ public partial class SubscriptionDetailForm : Form
         Text = $"Předplatné – {firma} ({_period.From:d.M.yyyy} – {_period.To:d.M.yyyy})";
     }
 
-    private void MarkPaid(object? sender, EventArgs e)
+    private void SavePeriod(object? sender, EventArgs e)
     {
-        _period.Zaplaceno = true;
-        _period.User.IsActive = true;
-        _period.User.UpdatedAt = DateTime.UtcNow;
+        var from = DateOnly.FromDateTime(_dtFrom.Value);
+        var to = DateOnly.FromDateTime(_dtTo.Value);
+        if (from > to)
+        {
+            MessageBox.Show("Datum 'Od' musí být před datem 'Do'.", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        _period.From = from;
+        _period.To = to;
+        _period.VariabilniSymbol = string.IsNullOrWhiteSpace(_txtVarSym.Text) ? null : _txtVarSym.Text.Trim();
+        _period.DatumObjednavky = _dtObjednavky.Checked ? (DateTime?)_dtObjednavky.Value.ToUniversalTime() : null;
+        _period.Note = string.IsNullOrWhiteSpace(_txtNote.Text) ? null : _txtNote.Text.Trim();
         _db.SaveChanges();
         Changed = true;
         LoadData();
     }
 
-    private void OpenUser(object? sender, EventArgs e)
+    private void MarkPaid(object? sender, EventArgs e)
     {
-        using var form = new UserDetailForm(_db, _period.UserId);
-        form.ShowDialog(this);
-        LoadData();
-        Changed = true;
-    }
-
-    private void EditPeriod(object? sender, EventArgs e)
-    {
-        using var form = new PeriodEditForm(_period, _period.From);
-        if (form.ShowDialog(this) != DialogResult.OK) return;
-
-        _period.From = form.PeriodFrom;
-        _period.To = form.PeriodTo;
-        _period.Note = form.PeriodNote;
-        _period.VariabilniSymbol = form.PeriodVariabilniSymbol;
-        _period.DatumObjednavky = form.PeriodDatumObjednavky;
+        _period.Zaplaceno = true;
+        _period.User.IsActive = true;
+        _period.User.UpdatedAt = DateTime.UtcNow;
         _db.SaveChanges();
         Changed = true;
         LoadData();
@@ -90,9 +99,17 @@ public partial class SubscriptionDetailForm : Form
         LoadData();
     }
 
+    private void OpenUser(object? sender, EventArgs e)
+    {
+        using var form = new UserDetailForm(_db, _period.UserId);
+        form.ShowDialog(this);
+        LoadData();
+        Changed = true;
+    }
+
+    private void BtnSave_Click(object sender, EventArgs e) => SavePeriod(sender, e);
     private void BtnMarkPaid_Click(object sender, EventArgs e) => MarkPaid(sender, e);
     private void BtnUnmarkPaid_Click(object sender, EventArgs e) => UnmarkPaid(sender, e);
-    private void BtnEdit_Click(object sender, EventArgs e) => EditPeriod(sender, e);
     private void BtnOpenUser_Click(object sender, EventArgs e) => OpenUser(sender, e);
     private void BtnClose_Click(object sender, EventArgs e) => Close();
 }
