@@ -15,5 +15,8 @@ public class SubscriptionPeriod
     [MaxLength(500)]
     public string? Note { get; set; }
 
+    /// <summary>Zda bylo období skutečně zaplaceno.</summary>
+    public bool Zaplaceno { get; set; } = false;
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
