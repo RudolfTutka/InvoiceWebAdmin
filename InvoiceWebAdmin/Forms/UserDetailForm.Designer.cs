@@ -14,26 +14,37 @@ partial class UserDetailForm
     private void InitializeComponent()
     {
         _tabs = new TabControl();
-        var tabInfo = new TabPage();
-        var tabSubs = new TabPage();
+        tabInfo = new TabPage();
+        tabSubs = new TabPage();
+        lblEmail = new Label();
         _txtEmail = new TextBox();
+        lblCompany = new Label();
         _txtCompanyName = new TextBox();
+        lblIco = new Label();
         _txtIco = new TextBox();
+        lblDic = new Label();
         _txtDic = new TextBox();
         _chkActive = new CheckBox();
+        lblSepPass = new Label();
+        lblNewPass = new Label();
         _txtNewPassword = new TextBox();
+        lblConfPass = new Label();
         _txtConfirmPassword = new TextBox();
+        lblSepInfo = new Label();
+        lblReg = new Label();
         _lblRegistrace = new Label();
+        lblTrial = new Label();
         _lblTrialDo = new Label();
-        var subsToolbar = new Panel();
+        btnSaveInfo = new Button();
+        subsToolbar = new Panel();
         _btnAddPeriod = new Button();
         _btnEditPeriod = new Button();
         _btnDeletePeriod = new Button();
         _gridSubs = new DataGridView();
-        var colFrom = new DataGridViewTextBoxColumn();
-        var colTo = new DataGridViewTextBoxColumn();
-        var colNote = new DataGridViewTextBoxColumn();
-        var colCreated = new DataGridViewTextBoxColumn();
+        colFrom = new DataGridViewTextBoxColumn();
+        colTo = new DataGridViewTextBoxColumn();
+        colNote = new DataGridViewTextBoxColumn();
+        colCreated = new DataGridViewTextBoxColumn();
         _tabs.SuspendLayout();
         tabInfo.SuspendLayout();
         tabSubs.SuspendLayout();
@@ -41,98 +52,260 @@ partial class UserDetailForm
         ((System.ComponentModel.ISupportInitialize)_gridSubs).BeginInit();
         SuspendLayout();
 
-        int lw = 140, cx = 168, fw = 300;
+        // Layout constants
+        const int lx = 12, lw = 140, cx = 168, fw = 300;
 
-        // tabInfo controls
-        var lblEmail = new Label { Text = "E-mail:", Left = 12, Top = 20, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtEmail.Left = cx; _txtEmail.Top = 20; _txtEmail.Width = fw;
+        // lblEmail
+        lblEmail.Location = new Point(lx, 20);
+        lblEmail.Name = "lblEmail";
+        lblEmail.Size = new Size(lw, 23);
+        lblEmail.TabIndex = 0;
+        lblEmail.Text = "E-mail:";
+        lblEmail.TextAlign = ContentAlignment.MiddleRight;
+        // _txtEmail
+        _txtEmail.Location = new Point(cx, 20);
+        _txtEmail.Name = "_txtEmail";
+        _txtEmail.Size = new Size(fw, 23);
+        _txtEmail.TabIndex = 1;
 
-        var lblCompany = new Label { Text = "Název firmy:", Left = 12, Top = 52, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtCompanyName.Left = cx; _txtCompanyName.Top = 52; _txtCompanyName.Width = fw;
+        // lblCompany
+        lblCompany.Location = new Point(lx, 52);
+        lblCompany.Name = "lblCompany";
+        lblCompany.Size = new Size(lw, 23);
+        lblCompany.TabIndex = 2;
+        lblCompany.Text = "Název firmy:";
+        lblCompany.TextAlign = ContentAlignment.MiddleRight;
+        // _txtCompanyName
+        _txtCompanyName.Location = new Point(cx, 52);
+        _txtCompanyName.Name = "_txtCompanyName";
+        _txtCompanyName.Size = new Size(fw, 23);
+        _txtCompanyName.TabIndex = 3;
 
-        var lblIco = new Label { Text = "IČO:", Left = 12, Top = 84, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtIco.Left = cx; _txtIco.Top = 84; _txtIco.Width = fw;
+        // lblIco
+        lblIco.Location = new Point(lx, 84);
+        lblIco.Name = "lblIco";
+        lblIco.Size = new Size(lw, 23);
+        lblIco.TabIndex = 4;
+        lblIco.Text = "IČO:";
+        lblIco.TextAlign = ContentAlignment.MiddleRight;
+        // _txtIco
+        _txtIco.Location = new Point(cx, 84);
+        _txtIco.Name = "_txtIco";
+        _txtIco.Size = new Size(fw, 23);
+        _txtIco.TabIndex = 5;
 
-        var lblDic = new Label { Text = "DIČ:", Left = 12, Top = 116, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtDic.Left = cx; _txtDic.Top = 116; _txtDic.Width = fw;
+        // lblDic
+        lblDic.Location = new Point(lx, 116);
+        lblDic.Name = "lblDic";
+        lblDic.Size = new Size(lw, 23);
+        lblDic.TabIndex = 6;
+        lblDic.Text = "DIČ:";
+        lblDic.TextAlign = ContentAlignment.MiddleRight;
+        // _txtDic
+        _txtDic.Location = new Point(cx, 116);
+        _txtDic.Name = "_txtDic";
+        _txtDic.Size = new Size(fw, 23);
+        _txtDic.TabIndex = 7;
 
+        // _chkActive
+        _chkActive.AutoSize = true;
+        _chkActive.Location = new Point(cx, 148);
+        _chkActive.Name = "_chkActive";
+        _chkActive.TabIndex = 8;
         _chkActive.Text = "Uživatel je aktivní";
-        _chkActive.Left = cx; _chkActive.Top = 148; _chkActive.AutoSize = true;
 
-        var lblSepPass = new Label { Text = "──── Změna hesla ────", Left = 12, Top = 188, Width = 420, Font = new Font(Font, FontStyle.Italic) };
+        // lblSepPass (separator)
+        lblSepPass.Location = new Point(lx, 188);
+        lblSepPass.Name = "lblSepPass";
+        lblSepPass.Size = new Size(420, 23);
+        lblSepPass.TabIndex = 9;
+        lblSepPass.Text = "──── Změna hesla ────";
+        lblSepPass.Font = new Font(Font, FontStyle.Italic);
 
-        var lblNewPass = new Label { Text = "Nové heslo:", Left = 12, Top = 216, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtNewPassword.Left = cx; _txtNewPassword.Top = 216; _txtNewPassword.Width = fw; _txtNewPassword.UseSystemPasswordChar = true;
+        // lblNewPass
+        lblNewPass.Location = new Point(lx, 216);
+        lblNewPass.Name = "lblNewPass";
+        lblNewPass.Size = new Size(lw, 23);
+        lblNewPass.TabIndex = 10;
+        lblNewPass.Text = "Nové heslo:";
+        lblNewPass.TextAlign = ContentAlignment.MiddleRight;
+        // _txtNewPassword
+        _txtNewPassword.Location = new Point(cx, 216);
+        _txtNewPassword.Name = "_txtNewPassword";
+        _txtNewPassword.Size = new Size(fw, 23);
+        _txtNewPassword.TabIndex = 11;
+        _txtNewPassword.UseSystemPasswordChar = true;
 
-        var lblConfPass = new Label { Text = "Potvrdit heslo:", Left = 12, Top = 248, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _txtConfirmPassword.Left = cx; _txtConfirmPassword.Top = 248; _txtConfirmPassword.Width = fw; _txtConfirmPassword.UseSystemPasswordChar = true;
+        // lblConfPass
+        lblConfPass.Location = new Point(lx, 248);
+        lblConfPass.Name = "lblConfPass";
+        lblConfPass.Size = new Size(lw, 23);
+        lblConfPass.TabIndex = 12;
+        lblConfPass.Text = "Potvrdit heslo:";
+        lblConfPass.TextAlign = ContentAlignment.MiddleRight;
+        // _txtConfirmPassword
+        _txtConfirmPassword.Location = new Point(cx, 248);
+        _txtConfirmPassword.Name = "_txtConfirmPassword";
+        _txtConfirmPassword.Size = new Size(fw, 23);
+        _txtConfirmPassword.TabIndex = 13;
+        _txtConfirmPassword.UseSystemPasswordChar = true;
 
-        var lblSepInfo = new Label { Text = "──── Informace ────", Left = 12, Top = 288, Width = 420, Font = new Font(Font, FontStyle.Italic) };
+        // lblSepInfo (separator)
+        lblSepInfo.Location = new Point(lx, 288);
+        lblSepInfo.Name = "lblSepInfo";
+        lblSepInfo.Size = new Size(420, 23);
+        lblSepInfo.TabIndex = 14;
+        lblSepInfo.Text = "──── Informace ────";
+        lblSepInfo.Font = new Font(Font, FontStyle.Italic);
 
-        var lblReg = new Label { Text = "Registrace:", Left = 12, Top = 316, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _lblRegistrace.Left = cx; _lblRegistrace.Top = 316; _lblRegistrace.Width = fw; _lblRegistrace.Height = 23;
+        // lblReg
+        lblReg.Location = new Point(lx, 316);
+        lblReg.Name = "lblReg";
+        lblReg.Size = new Size(lw, 23);
+        lblReg.TabIndex = 15;
+        lblReg.Text = "Registrace:";
+        lblReg.TextAlign = ContentAlignment.MiddleRight;
+        // _lblRegistrace
+        _lblRegistrace.Location = new Point(cx, 316);
+        _lblRegistrace.Name = "_lblRegistrace";
+        _lblRegistrace.Size = new Size(fw, 23);
+        _lblRegistrace.TabIndex = 16;
 
-        var lblTrial = new Label { Text = "Trial vyprší:", Left = 12, Top = 344, Width = lw, Height = 23, TextAlign = ContentAlignment.MiddleRight };
-        _lblTrialDo.Left = cx; _lblTrialDo.Top = 344; _lblTrialDo.Width = fw; _lblTrialDo.Height = 23;
+        // lblTrial
+        lblTrial.Location = new Point(lx, 344);
+        lblTrial.Name = "lblTrial";
+        lblTrial.Size = new Size(lw, 23);
+        lblTrial.TabIndex = 17;
+        lblTrial.Text = "Trial vyprší:";
+        lblTrial.TextAlign = ContentAlignment.MiddleRight;
+        // _lblTrialDo
+        _lblTrialDo.Location = new Point(cx, 344);
+        _lblTrialDo.Name = "_lblTrialDo";
+        _lblTrialDo.Size = new Size(fw, 23);
+        _lblTrialDo.TabIndex = 18;
 
-        var btnSaveInfo = new Button { Text = "Uložit změny", Left = cx, Top = 380, Width = 120 };
+        // btnSaveInfo
+        btnSaveInfo.Location = new Point(cx, 380);
+        btnSaveInfo.Name = "btnSaveInfo";
+        btnSaveInfo.Size = new Size(120, 23);
+        btnSaveInfo.TabIndex = 19;
+        btnSaveInfo.Text = "Uložit změny";
         btnSaveInfo.Click += SaveBasicInfo;
 
+        // tabInfo
+        tabInfo.Controls.Add(lblEmail);
+        tabInfo.Controls.Add(_txtEmail);
+        tabInfo.Controls.Add(lblCompany);
+        tabInfo.Controls.Add(_txtCompanyName);
+        tabInfo.Controls.Add(lblIco);
+        tabInfo.Controls.Add(_txtIco);
+        tabInfo.Controls.Add(lblDic);
+        tabInfo.Controls.Add(_txtDic);
+        tabInfo.Controls.Add(_chkActive);
+        tabInfo.Controls.Add(lblSepPass);
+        tabInfo.Controls.Add(lblNewPass);
+        tabInfo.Controls.Add(_txtNewPassword);
+        tabInfo.Controls.Add(lblConfPass);
+        tabInfo.Controls.Add(_txtConfirmPassword);
+        tabInfo.Controls.Add(lblSepInfo);
+        tabInfo.Controls.Add(lblReg);
+        tabInfo.Controls.Add(_lblRegistrace);
+        tabInfo.Controls.Add(lblTrial);
+        tabInfo.Controls.Add(_lblTrialDo);
+        tabInfo.Controls.Add(btnSaveInfo);
+        tabInfo.Location = new Point(4, 24);
+        tabInfo.Name = "tabInfo";
+        tabInfo.Size = new Size(676, 493);
+        tabInfo.TabIndex = 0;
         tabInfo.Text = "Základní údaje";
-        tabInfo.Controls.AddRange(new Control[] {
-            lblEmail, _txtEmail, lblCompany, _txtCompanyName,
-            lblIco, _txtIco, lblDic, _txtDic, _chkActive,
-            lblSepPass, lblNewPass, _txtNewPassword, lblConfPass, _txtConfirmPassword,
-            lblSepInfo, lblReg, _lblRegistrace, lblTrial, _lblTrialDo,
-            btnSaveInfo
-        });
+
+        // _btnAddPeriod
+        _btnAddPeriod.Location = new Point(4, 6);
+        _btnAddPeriod.Name = "_btnAddPeriod";
+        _btnAddPeriod.Size = new Size(120, 23);
+        _btnAddPeriod.TabIndex = 0;
+        _btnAddPeriod.Text = "Přidat období";
+        _btnAddPeriod.Click += BtnAddPeriod_Click;
+        // _btnEditPeriod
+        _btnEditPeriod.Enabled = false;
+        _btnEditPeriod.Location = new Point(132, 6);
+        _btnEditPeriod.Name = "_btnEditPeriod";
+        _btnEditPeriod.Size = new Size(90, 23);
+        _btnEditPeriod.TabIndex = 1;
+        _btnEditPeriod.Text = "Upravit";
+        _btnEditPeriod.Click += BtnEditPeriod_Click;
+        // _btnDeletePeriod
+        _btnDeletePeriod.Enabled = false;
+        _btnDeletePeriod.Location = new Point(230, 6);
+        _btnDeletePeriod.Name = "_btnDeletePeriod";
+        _btnDeletePeriod.Size = new Size(90, 23);
+        _btnDeletePeriod.TabIndex = 2;
+        _btnDeletePeriod.Text = "Smazat";
+        _btnDeletePeriod.Click += BtnDeletePeriod_Click;
 
         // subsToolbar
-        _btnAddPeriod.Text = "Přidat období"; _btnAddPeriod.Left = 4; _btnAddPeriod.Top = 6; _btnAddPeriod.Width = 120;
-        _btnAddPeriod.Click += BtnAddPeriod_Click;
-        _btnEditPeriod.Text = "Upravit"; _btnEditPeriod.Left = 132; _btnEditPeriod.Top = 6; _btnEditPeriod.Width = 90; _btnEditPeriod.Enabled = false;
-        _btnEditPeriod.Click += BtnEditPeriod_Click;
-        _btnDeletePeriod.Text = "Smazat"; _btnDeletePeriod.Left = 230; _btnDeletePeriod.Top = 6; _btnDeletePeriod.Width = 90; _btnDeletePeriod.Enabled = false;
-        _btnDeletePeriod.Click += BtnDeletePeriod_Click;
-        subsToolbar.Dock = DockStyle.Top; subsToolbar.Height = 40; subsToolbar.Padding = new Padding(4, 6, 4, 4);
-        subsToolbar.Controls.AddRange(new Control[] { _btnAddPeriod, _btnEditPeriod, _btnDeletePeriod });
+        subsToolbar.Controls.Add(_btnAddPeriod);
+        subsToolbar.Controls.Add(_btnEditPeriod);
+        subsToolbar.Controls.Add(_btnDeletePeriod);
+        subsToolbar.Dock = DockStyle.Top;
+        subsToolbar.Location = new Point(0, 0);
+        subsToolbar.Name = "subsToolbar";
+        subsToolbar.Padding = new Padding(4, 6, 4, 4);
+        subsToolbar.Size = new Size(676, 40);
+        subsToolbar.TabIndex = 0;
+
+        // colFrom / colTo / colNote / colCreated
+        colFrom.FillWeight = 80F; colFrom.HeaderText = "Od"; colFrom.Name = "colFrom"; colFrom.ReadOnly = true;
+        colTo.FillWeight = 80F; colTo.HeaderText = "Do"; colTo.Name = "colTo"; colTo.ReadOnly = true;
+        colNote.HeaderText = "Poznámka"; colNote.Name = "colNote"; colNote.ReadOnly = true;
+        colCreated.FillWeight = 80F; colCreated.HeaderText = "Vytvořeno"; colCreated.Name = "colCreated"; colCreated.ReadOnly = true;
 
         // _gridSubs
-        _gridSubs.Dock = DockStyle.Fill;
-        _gridSubs.ReadOnly = true;
-        _gridSubs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        _gridSubs.MultiSelect = false;
         _gridSubs.AllowUserToAddRows = false;
         _gridSubs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        _gridSubs.RowHeadersVisible = false;
         _gridSubs.BackgroundColor = SystemColors.Window;
-        _gridSubs.SelectionChanged += GridSubs_SelectionChanged;
+        _gridSubs.Columns.AddRange(new DataGridViewColumn[] { colFrom, colTo, colNote, colCreated });
+        _gridSubs.Dock = DockStyle.Fill;
+        _gridSubs.Location = new Point(0, 0);
+        _gridSubs.MultiSelect = false;
+        _gridSubs.Name = "_gridSubs";
+        _gridSubs.ReadOnly = true;
+        _gridSubs.RowHeadersVisible = false;
+        _gridSubs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        _gridSubs.Size = new Size(676, 493);
+        _gridSubs.TabIndex = 1;
         _gridSubs.CellDoubleClick += GridSubs_CellDoubleClick;
+        _gridSubs.SelectionChanged += GridSubs_SelectionChanged;
 
-        colFrom.Name = "colFrom"; colFrom.HeaderText = "Od"; colFrom.FillWeight = 80;
-        colTo.Name = "colTo"; colTo.HeaderText = "Do"; colTo.FillWeight = 80;
-        colNote.Name = "colNote"; colNote.HeaderText = "Poznámka";
-        colCreated.Name = "colCreated"; colCreated.HeaderText = "Vytvořeno"; colCreated.FillWeight = 80;
-        _gridSubs.Columns.AddRange(colFrom, colTo, colNote, colCreated);
-
-        tabSubs.Text = "Předplatné";
+        // tabSubs
         tabSubs.Controls.Add(subsToolbar);
         tabSubs.Controls.Add(_gridSubs);
+        tabSubs.Location = new Point(4, 24);
+        tabSubs.Name = "tabSubs";
+        tabSubs.Size = new Size(676, 493);
+        tabSubs.TabIndex = 1;
+        tabSubs.Text = "Předplatné";
 
         // _tabs
+        _tabs.Controls.Add(tabInfo);
+        _tabs.Controls.Add(tabSubs);
         _tabs.Dock = DockStyle.Fill;
-        _tabs.TabPages.Add(tabInfo);
-        _tabs.TabPages.Add(tabSubs);
+        _tabs.Location = new Point(0, 0);
+        _tabs.Name = "_tabs";
+        _tabs.SelectedIndex = 0;
+        _tabs.Size = new Size(684, 521);
+        _tabs.TabIndex = 0;
 
         // UserDetailForm
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        Text = "Detail uživatele";
         ClientSize = new Size(684, 521);
+        Controls.Add(_tabs);
         FormBorderStyle = FormBorderStyle.FixedDialog;
         MaximizeBox = false;
+        Name = "UserDetailForm";
         StartPosition = FormStartPosition.CenterParent;
-        Controls.Add(_tabs);
+        Text = "Detail uživatele";
 
         _tabs.ResumeLayout(false);
         tabInfo.ResumeLayout(false);
@@ -157,4 +330,22 @@ partial class UserDetailForm
     private Button _btnAddPeriod = null!;
     private Button _btnEditPeriod = null!;
     private Button _btnDeletePeriod = null!;
+    private TabPage tabInfo;
+    private TabPage tabSubs;
+    private Panel subsToolbar;
+    private Label lblEmail;
+    private Label lblCompany;
+    private Label lblIco;
+    private Label lblDic;
+    private Label lblSepPass;
+    private Label lblNewPass;
+    private Label lblConfPass;
+    private Label lblSepInfo;
+    private Label lblReg;
+    private Label lblTrial;
+    private Button btnSaveInfo;
+    private DataGridViewTextBoxColumn colFrom;
+    private DataGridViewTextBoxColumn colTo;
+    private DataGridViewTextBoxColumn colNote;
+    private DataGridViewTextBoxColumn colCreated;
 }

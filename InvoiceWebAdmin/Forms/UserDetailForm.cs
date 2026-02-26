@@ -9,6 +9,7 @@ public partial class UserDetailForm : Form
     private readonly AdminDbContext _db;
     private readonly int _userId;
     private User _user = null!;
+   
 
     public UserDetailForm(AdminDbContext db, int userId)
     {
