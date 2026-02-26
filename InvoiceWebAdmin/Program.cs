@@ -10,16 +10,16 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false)
     .Build();
 
-var dbPath = config["DatabasePath"]
-    ?? throw new InvalidOperationException("DatabasePath není nastaven v appsettings.json");
+var dbPath = config["DatabasePath"] ?? "";
 
 if (!File.Exists(dbPath))
 {
-    MessageBox.Show(
-        $"Databáze nebyla nalezena:\n{dbPath}\n\nZkontrolujte cestu v appsettings.json.",
-        "Chyba – databáze nenalezena",
-        MessageBoxButtons.OK, MessageBoxIcon.Error);
-    return;
+    using var setupForm = new DatabaseSetupForm(dbPath);
+    if (setupForm.ShowDialog() != DialogResult.OK)
+        return;
+
+    dbPath = setupForm.SelectedPath;
+    DatabaseSetupForm.SavePath(dbPath);
 }
 
 var options = new DbContextOptionsBuilder<AdminDbContext>()
