@@ -44,6 +44,7 @@ public partial class SubscriptionDetailForm : Form
         _lblStavVal.ForeColor = stav == "Aktivní" ? Color.FromArgb(0, 128, 0) : Color.FromArgb(150, 80, 0);
 
         _btnMarkPaid.Enabled = !_period.Zaplaceno;
+        _btnUnmarkPaid.Enabled = _period.Zaplaceno;
 
         Text = $"Předplatné – {firma} ({_period.From:d.M.yyyy} – {_period.To:d.M.yyyy})";
     }
@@ -81,7 +82,16 @@ public partial class SubscriptionDetailForm : Form
         LoadData();
     }
 
+    private void UnmarkPaid(object? sender, EventArgs e)
+    {
+        _period.Zaplaceno = false;
+        _db.SaveChanges();
+        Changed = true;
+        LoadData();
+    }
+
     private void BtnMarkPaid_Click(object sender, EventArgs e) => MarkPaid(sender, e);
+    private void BtnUnmarkPaid_Click(object sender, EventArgs e) => UnmarkPaid(sender, e);
     private void BtnEdit_Click(object sender, EventArgs e) => EditPeriod(sender, e);
     private void BtnOpenUser_Click(object sender, EventArgs e) => OpenUser(sender, e);
     private void BtnClose_Click(object sender, EventArgs e) => Close();

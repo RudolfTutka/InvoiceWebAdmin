@@ -14,6 +14,7 @@ partial class SubscriptionDetailForm
     private void InitializeComponent()
     {
         _btnMarkPaid = new Button();
+        _btnUnmarkPaid = new Button();
         _btnEdit = new Button();
         _btnOpenUser = new Button();
         _btnClose = new Button();
@@ -101,11 +102,16 @@ partial class SubscriptionDetailForm
         // Buttons – row 1
         _btnMarkPaid.Text = "Označit jako zaplacené";
         _btnMarkPaid.Left = lx; _btnMarkPaid.Top = y;
-        _btnMarkPaid.Width = 170; _btnMarkPaid.Height = 28;
+        _btnMarkPaid.Width = 160; _btnMarkPaid.Height = 28;
         _btnMarkPaid.Click += BtnMarkPaid_Click;
 
+        _btnUnmarkPaid.Text = "Zrušit zaplacení";
+        _btnUnmarkPaid.Left = lx + 168; _btnUnmarkPaid.Top = y;
+        _btnUnmarkPaid.Width = 120; _btnUnmarkPaid.Height = 28;
+        _btnUnmarkPaid.Click += BtnUnmarkPaid_Click;
+
         _btnEdit.Text = "Upravit";
-        _btnEdit.Left = lx + 178; _btnEdit.Top = y;
+        _btnEdit.Left = lx + 296; _btnEdit.Top = y;
         _btnEdit.Width = 90; _btnEdit.Height = 28;
         _btnEdit.Click += BtnEdit_Click;
 
@@ -127,7 +133,7 @@ partial class SubscriptionDetailForm
         Controls.AddRange(new Control[] {
             _lblFirmaVal, _lblEmailVal,
             _lblOdVal, _lblDoVal, _lblVarSymVal, _lblDatumObjVal, _lblZaplacenoVal, _lblStavVal,
-            _btnMarkPaid, _btnEdit, _btnOpenUser, _btnClose
+            _btnMarkPaid, _btnUnmarkPaid, _btnEdit, _btnOpenUser, _btnClose
         });
 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -143,6 +149,7 @@ partial class SubscriptionDetailForm
     }
 
     private Button _btnMarkPaid = null!;
+    private Button _btnUnmarkPaid = null!;
     private Button _btnEdit = null!;
     private Button _btnOpenUser = null!;
     private Button _btnClose = null!;
