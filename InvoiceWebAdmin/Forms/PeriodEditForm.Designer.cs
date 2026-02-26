@@ -20,94 +20,143 @@ partial class PeriodEditForm
         _dtObjednavky = new DateTimePicker();
         _btnOk = new Button();
         _btnCancel = new Button();
-        var lblFrom = new Label();
-        var lblTo = new Label();
-        var lblNote = new Label();
-        var lblVariabilniSymbol = new Label();
-        var lblDatumObjednavky = new Label();
+        lblFrom = new Label();
+        lblTo = new Label();
+        lblNote = new Label();
+        lblVariabilniSymbol = new Label();
+        lblDatumObjednavky = new Label();
         SuspendLayout();
-
-        int lw = 130, cx = 148, fw = 210;
-
-        // lblFrom
-        lblFrom.Text = "Od:";
-        lblFrom.Left = 12; lblFrom.Top = 20;
-        lblFrom.Width = lw; lblFrom.Height = 23;
-        lblFrom.TextAlign = ContentAlignment.MiddleRight;
-
+        // 
         // _dtFrom
-        _dtFrom.Left = cx; _dtFrom.Top = 20; _dtFrom.Width = fw;
+        // 
         _dtFrom.Format = DateTimePickerFormat.Short;
-
-        // lblTo
-        lblTo.Text = "Do:";
-        lblTo.Left = 12; lblTo.Top = 56;
-        lblTo.Width = lw; lblTo.Height = 23;
-        lblTo.TextAlign = ContentAlignment.MiddleRight;
-
+        _dtFrom.Location = new Point(148, 20);
+        _dtFrom.Name = "_dtFrom";
+        _dtFrom.Size = new Size(210, 23);
+        _dtFrom.TabIndex = 1;
+        // 
         // _dtTo
-        _dtTo.Left = cx; _dtTo.Top = 56; _dtTo.Width = fw;
+        // 
         _dtTo.Format = DateTimePickerFormat.Short;
-
-        // lblNote
-        lblNote.Text = "Poznámka:";
-        lblNote.Left = 12; lblNote.Top = 92;
-        lblNote.Width = lw; lblNote.Height = 23;
-        lblNote.TextAlign = ContentAlignment.MiddleRight;
-
+        _dtTo.Location = new Point(148, 56);
+        _dtTo.Name = "_dtTo";
+        _dtTo.Size = new Size(210, 23);
+        _dtTo.TabIndex = 3;
+        // 
         // _txtNote
-        _txtNote.Left = cx; _txtNote.Top = 92; _txtNote.Width = fw;
-
-        // lblVariabilniSymbol
-        lblVariabilniSymbol.Text = "Variabilní symbol:";
-        lblVariabilniSymbol.Left = 12; lblVariabilniSymbol.Top = 128;
-        lblVariabilniSymbol.Width = lw; lblVariabilniSymbol.Height = 23;
-        lblVariabilniSymbol.TextAlign = ContentAlignment.MiddleRight;
-
+        // 
+        _txtNote.Location = new Point(148, 92);
+        _txtNote.Name = "_txtNote";
+        _txtNote.Size = new Size(210, 23);
+        _txtNote.TabIndex = 5;
+        // 
         // _txtVariabilniSymbol
-        _txtVariabilniSymbol.Left = cx; _txtVariabilniSymbol.Top = 128; _txtVariabilniSymbol.Width = fw;
+        // 
+        _txtVariabilniSymbol.Location = new Point(148, 128);
         _txtVariabilniSymbol.MaxLength = 50;
-
-        // lblDatumObjednavky
-        lblDatumObjednavky.Text = "Datum objednávky:";
-        lblDatumObjednavky.Left = 12; lblDatumObjednavky.Top = 164;
-        lblDatumObjednavky.Width = lw; lblDatumObjednavky.Height = 23;
-        lblDatumObjednavky.TextAlign = ContentAlignment.MiddleRight;
-
+        _txtVariabilniSymbol.Name = "_txtVariabilniSymbol";
+        _txtVariabilniSymbol.Size = new Size(210, 23);
+        _txtVariabilniSymbol.TabIndex = 7;
+        // 
         // _dtObjednavky
-        _dtObjednavky.Left = cx; _dtObjednavky.Top = 161; _dtObjednavky.Width = fw;
-        _dtObjednavky.Format = DateTimePickerFormat.Custom;
-        _dtObjednavky.CustomFormat = "d.M.yyyy";
-        _dtObjednavky.ShowCheckBox = true;
+        // 
         _dtObjednavky.Checked = false;
-
+        _dtObjednavky.CustomFormat = "d.M.yyyy";
+        _dtObjednavky.Format = DateTimePickerFormat.Custom;
+        _dtObjednavky.Location = new Point(148, 161);
+        _dtObjednavky.Name = "_dtObjednavky";
+        _dtObjednavky.ShowCheckBox = true;
+        _dtObjednavky.Size = new Size(210, 23);
+        _dtObjednavky.TabIndex = 9;
+        // 
         // _btnOk
-        _btnOk.Text = "Uložit";
-        _btnOk.Left = cx; _btnOk.Top = 208; _btnOk.Width = 90;
+        // 
         _btnOk.DialogResult = DialogResult.OK;
+        _btnOk.Location = new Point(148, 208);
+        _btnOk.Name = "_btnOk";
+        _btnOk.Size = new Size(90, 23);
+        _btnOk.TabIndex = 10;
+        _btnOk.Text = "Uložit";
         _btnOk.Click += Save;
-
+        // 
         // _btnCancel
-        _btnCancel.Text = "Zrušit";
-        _btnCancel.Left = cx + 98; _btnCancel.Top = 208; _btnCancel.Width = 90;
+        // 
         _btnCancel.DialogResult = DialogResult.Cancel;
-
+        _btnCancel.Location = new Point(148, 208);
+        _btnCancel.Name = "_btnCancel";
+        _btnCancel.Size = new Size(90, 23);
+        _btnCancel.TabIndex = 11;
+        _btnCancel.Text = "Zrušit";
+        // 
+        // lblFrom
+        // 
+        lblFrom.Location = new Point(12, 20);
+        lblFrom.Name = "lblFrom";
+        lblFrom.Size = new Size(130, 23);
+        lblFrom.TabIndex = 0;
+        lblFrom.Text = "Od:";
+        lblFrom.TextAlign = ContentAlignment.MiddleRight;
+        // 
+        // lblTo
+        // 
+        lblTo.Location = new Point(12, 56);
+        lblTo.Name = "lblTo";
+        lblTo.Size = new Size(130, 23);
+        lblTo.TabIndex = 2;
+        lblTo.Text = "Do:";
+        lblTo.TextAlign = ContentAlignment.MiddleRight;
+        // 
+        // lblNote
+        // 
+        lblNote.Location = new Point(12, 92);
+        lblNote.Name = "lblNote";
+        lblNote.Size = new Size(130, 23);
+        lblNote.TabIndex = 4;
+        lblNote.Text = "Poznámka:";
+        lblNote.TextAlign = ContentAlignment.MiddleRight;
+        // 
+        // lblVariabilniSymbol
+        // 
+        lblVariabilniSymbol.Location = new Point(12, 128);
+        lblVariabilniSymbol.Name = "lblVariabilniSymbol";
+        lblVariabilniSymbol.Size = new Size(130, 23);
+        lblVariabilniSymbol.TabIndex = 6;
+        lblVariabilniSymbol.Text = "Variabilní symbol:";
+        lblVariabilniSymbol.TextAlign = ContentAlignment.MiddleRight;
+        // 
+        // lblDatumObjednavky
+        // 
+        lblDatumObjednavky.Location = new Point(12, 164);
+        lblDatumObjednavky.Name = "lblDatumObjednavky";
+        lblDatumObjednavky.Size = new Size(130, 23);
+        lblDatumObjednavky.TabIndex = 8;
+        lblDatumObjednavky.Text = "Datum objednávky:";
+        lblDatumObjednavky.TextAlign = ContentAlignment.MiddleRight;
+        // 
         // PeriodEditForm
+        // 
+        AcceptButton = _btnOk;
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(380, 252);
-        FormBorderStyle = FormBorderStyle.FixedDialog;
-        MaximizeBox = false; MinimizeBox = false;
-        StartPosition = FormStartPosition.CenterParent;
-        AcceptButton = _btnOk;
         CancelButton = _btnCancel;
-        Controls.AddRange(new Control[] {
-            lblFrom, _dtFrom, lblTo, _dtTo,
-            lblNote, _txtNote,
-            lblVariabilniSymbol, _txtVariabilniSymbol,
-            lblDatumObjednavky, _dtObjednavky,
-            _btnOk, _btnCancel });
-
+        ClientSize = new Size(380, 252);
+        Controls.Add(lblFrom);
+        Controls.Add(_dtFrom);
+        Controls.Add(lblTo);
+        Controls.Add(_dtTo);
+        Controls.Add(lblNote);
+        Controls.Add(_txtNote);
+        Controls.Add(lblVariabilniSymbol);
+        Controls.Add(_txtVariabilniSymbol);
+        Controls.Add(lblDatumObjednavky);
+        Controls.Add(_dtObjednavky);
+        Controls.Add(_btnOk);
+        Controls.Add(_btnCancel);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
+        MinimizeBox = false;
+        Name = "PeriodEditForm";
+        StartPosition = FormStartPosition.CenterParent;
         ResumeLayout(false);
         PerformLayout();
     }
@@ -119,4 +168,9 @@ partial class PeriodEditForm
     private DateTimePicker _dtObjednavky = null!;
     private Button _btnOk = null!;
     private Button _btnCancel = null!;
+    private Label lblFrom;
+    private Label lblTo;
+    private Label lblNote;
+    private Label lblVariabilniSymbol;
+    private Label lblDatumObjednavky;
 }
