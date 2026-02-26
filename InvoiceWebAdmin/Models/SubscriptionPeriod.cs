@@ -15,6 +15,11 @@ public class SubscriptionPeriod
     [MaxLength(500)]
     public string? Note { get; set; }
 
+    [MaxLength(50)]
+    public string? VariabilniSymbol { get; set; }
+
+    public DateTime? DatumObjednavky { get; set; }
+
     /// <summary>Zda bylo období skutečně zaplaceno.</summary>
     public bool Zaplaceno { get; set; } = false;
 

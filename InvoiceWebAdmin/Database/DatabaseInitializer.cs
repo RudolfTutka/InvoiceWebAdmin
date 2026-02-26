@@ -25,6 +25,8 @@ public static class DatabaseInitializer
                 FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
             )"); } catch { }
         try { context.Database.ExecuteSqlRaw("ALTER TABLE SubscriptionPeriods ADD COLUMN Zaplaceno INTEGER NOT NULL DEFAULT 0"); } catch { }
+        try { context.Database.ExecuteSqlRaw("ALTER TABLE SubscriptionPeriods ADD COLUMN VariabilniSymbol TEXT NULL"); } catch { }
+        try { context.Database.ExecuteSqlRaw("ALTER TABLE SubscriptionPeriods ADD COLUMN DatumObjednavky TEXT NULL"); } catch { }
         try { context.Database.ExecuteSqlRaw(@"
             CREATE TABLE IF NOT EXISTS AdminSettings (
                 Id INTEGER PRIMARY KEY,

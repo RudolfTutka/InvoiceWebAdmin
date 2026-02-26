@@ -52,16 +52,25 @@ public partial class UserDetailForm : Form
         var today = DateOnly.FromDateTime(DateTime.Today);
         foreach (var p in _periods)
         {
+            var stav = p.Zaplaceno && p.From <= today && p.To >= today
+                ? "Aktivní"
+                : p.To < today ? "Expirováno" : "Budoucí";
+
             var i = _gridSubs.Rows.Add(
                 p.From.ToString("d.M.yyyy"),
                 p.To.ToString("d.M.yyyy"),
-                p.Note ?? "",
-                p.CreatedAt.ToLocalTime().ToString("d.M.yyyy"));
+                p.VariabilniSymbol ?? "",
+                p.DatumObjednavky?.ToLocalTime().ToString("d.M.yyyy") ?? "",
+                p.Zaplaceno ? "Ano" : "Ne",
+                stav);
             _gridSubs.Rows[i].Tag = p.Id;
-            if (p.From <= today && p.To >= today)
+
+            if (p.Zaplaceno && p.From <= today && p.To >= today)
                 _gridSubs.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(220, 255, 220);
             else if (p.To < today)
                 _gridSubs.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+            else if (!p.Zaplaceno)
+                _gridSubs.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(255, 248, 220);
         }
     }
 
@@ -126,6 +135,8 @@ public partial class UserDetailForm : Form
             From = form.PeriodFrom,
             To = form.PeriodTo,
             Note = form.PeriodNote,
+            VariabilniSymbol = form.PeriodVariabilniSymbol,
+            DatumObjednavky = form.PeriodDatumObjednavky,
             CreatedAt = DateTime.UtcNow
         };
         _db.SubscriptionPeriods.Add(period);
@@ -145,6 +156,8 @@ public partial class UserDetailForm : Form
         period.From = form.PeriodFrom;
         period.To = form.PeriodTo;
         period.Note = form.PeriodNote;
+        period.VariabilniSymbol = form.PeriodVariabilniSymbol;
+        period.DatumObjednavky = form.PeriodDatumObjednavky;
         _db.SaveChanges();
         LoadPeriods();
     }
@@ -165,13 +178,41 @@ public partial class UserDetailForm : Form
         LoadPeriods();
     }
 
+    private void MarkPaid()
+    {
+        var id = SelectedPeriodId();
+        if (id == null) return;
+        var period = _periods.First(p => p.Id == id);
+        if (period.Zaplaceno) return;
+
+        period.Zaplaceno = true;
+        _user.IsActive = true;
+        _user.UpdatedAt = DateTime.UtcNow;
+        _db.SaveChanges();
+        _chkActive.Checked = true;
+        LoadPeriods();
+    }
+
     private void BtnAddPeriod_Click(object sender, EventArgs e) => AddPeriod();
     private void BtnEditPeriod_Click(object sender, EventArgs e) => EditPeriod();
     private void BtnDeletePeriod_Click(object sender, EventArgs e) => DeletePeriod();
+    private void BtnMarkPaid_Click(object sender, EventArgs e) => MarkPaid();
     private void GridSubs_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => EditPeriod();
     private void GridSubs_SelectionChanged(object sender, EventArgs e)
     {
-        _btnEditPeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
-        _btnDeletePeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
+        var hasSelection = _gridSubs.SelectedRows.Count > 0;
+        _btnEditPeriod.Enabled = hasSelection;
+        _btnDeletePeriod.Enabled = hasSelection;
+
+        if (hasSelection)
+        {
+            var id = (int)(_gridSubs.SelectedRows[0].Tag ?? 0);
+            var period = _periods.FirstOrDefault(p => p.Id == id);
+            _btnMarkPaid.Enabled = period != null && !period.Zaplaceno;
+        }
+        else
+        {
+            _btnMarkPaid.Enabled = false;
+        }
     }
 }

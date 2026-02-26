@@ -19,6 +19,7 @@ partial class MainForm
         _btnDetail = new Button();
         _btnDelete = new Button();
         _btnSettings = new Button();
+        _btnSubscriptions = new Button();
         _grid = new DataGridView();
         var colId = new DataGridViewTextBoxColumn();
         var colFirma = new DataGridViewTextBoxColumn();
@@ -55,10 +56,15 @@ partial class MainForm
         _btnSettings.Left = 540; _btnSettings.Top = 6; _btnSettings.Width = 100;
         _btnSettings.Click += BtnSettings_Click;
 
+        // _btnSubscriptions
+        _btnSubscriptions.Text = "Předplatná";
+        _btnSubscriptions.Left = 648; _btnSubscriptions.Top = 6; _btnSubscriptions.Width = 110;
+        _btnSubscriptions.Click += BtnSubscriptions_Click;
+
         // _toolbar
         _toolbar.Dock = DockStyle.Top; _toolbar.Height = 44;
         _toolbar.Padding = new Padding(8, 6, 8, 6);
-        _toolbar.Controls.AddRange(new Control[] { _lblSearch, _searchBox, _btnDetail, _btnDelete, _btnSettings });
+        _toolbar.Controls.AddRange(new Control[] { _lblSearch, _searchBox, _btnDetail, _btnDelete, _btnSettings, _btnSubscriptions });
 
         // columns
         colId.Name = "colId"; colId.HeaderText = "ID"; colId.FillWeight = 30;
@@ -104,5 +110,6 @@ partial class MainForm
     private Button _btnDetail = null!;
     private Button _btnDelete = null!;
     private Button _btnSettings = null!;
+    private Button _btnSubscriptions = null!;
     private DataGridView _grid = null!;
 }

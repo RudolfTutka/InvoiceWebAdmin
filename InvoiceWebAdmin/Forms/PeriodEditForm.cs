@@ -7,6 +7,8 @@ public partial class PeriodEditForm : Form
     public DateOnly PeriodFrom { get; private set; }
     public DateOnly PeriodTo { get; private set; }
     public string? PeriodNote { get; private set; }
+    public string? PeriodVariabilniSymbol { get; private set; }
+    public DateTime? PeriodDatumObjednavky { get; private set; }
 
     public PeriodEditForm(SubscriptionPeriod? existing, DateOnly defaultFrom)
     {
@@ -19,6 +21,16 @@ public partial class PeriodEditForm : Form
             ? existing.To.ToDateTime(TimeOnly.MinValue)
             : defaultFrom.AddMonths(1).AddDays(-1).ToDateTime(TimeOnly.MinValue);
         _txtNote.Text = existing?.Note ?? "";
+        _txtVariabilniSymbol.Text = existing?.VariabilniSymbol ?? "";
+        if (existing?.DatumObjednavky.HasValue == true)
+        {
+            _dtObjednavky.Checked = true;
+            _dtObjednavky.Value = existing.DatumObjednavky.Value.ToLocalTime();
+        }
+        else
+        {
+            _dtObjednavky.Checked = false;
+        }
     }
 
     private void Save(object? sender, EventArgs e)
@@ -34,5 +46,7 @@ public partial class PeriodEditForm : Form
         PeriodFrom = from;
         PeriodTo = to;
         PeriodNote = string.IsNullOrWhiteSpace(_txtNote.Text) ? null : _txtNote.Text.Trim();
+        PeriodVariabilniSymbol = string.IsNullOrWhiteSpace(_txtVariabilniSymbol.Text) ? null : _txtVariabilniSymbol.Text.Trim();
+        PeriodDatumObjednavky = _dtObjednavky.Checked ? (DateTime?)_dtObjednavky.Value.ToUniversalTime() : null;
     }
 }

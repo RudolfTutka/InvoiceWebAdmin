@@ -95,10 +95,18 @@ public partial class MainForm : Form
         LoadUsers();
     }
 
+    private void OpenSubscriptions()
+    {
+        using var form = new SubscriptionsListForm(_db);
+        form.ShowDialog(this);
+        LoadUsers();
+    }
+
     private void SearchBox_TextChanged(object sender, EventArgs e) => FilterUsers();
     private void BtnDetail_Click(object sender, EventArgs e) => OpenDetail();
     private void BtnDelete_Click(object sender, EventArgs e) => DeleteUser();
     private void BtnSettings_Click(object sender, EventArgs e) => OpenSettings();
+    private void BtnSubscriptions_Click(object sender, EventArgs e) => OpenSubscriptions();
     private void Grid_SelectionChanged(object sender, EventArgs e) => UpdateButtons();
     private void Grid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => OpenDetail();
 }
@@ -126,9 +134,10 @@ internal class UserRow
         var today = DateOnly.FromDateTime(DateTime.Today);
         var trialEnd = DateOnly.FromDateTime(user.CreatedAt.ToLocalTime().AddDays(trialDays));
         var activePeriod = user.SubscriptionPeriods
-            .Where(p => p.From <= today && p.To >= today)
+            .Where(p => p.Zaplaceno && p.From <= today && p.To >= today)
             .FirstOrDefault();
         var latestPeriod = user.SubscriptionPeriods
+            .Where(p => p.Zaplaceno)
             .OrderByDescending(p => p.To)
             .FirstOrDefault();
 

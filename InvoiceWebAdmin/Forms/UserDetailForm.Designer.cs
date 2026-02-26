@@ -40,11 +40,14 @@ partial class UserDetailForm
         _btnAddPeriod = new Button();
         _btnEditPeriod = new Button();
         _btnDeletePeriod = new Button();
+        _btnMarkPaid = new Button();
         _gridSubs = new DataGridView();
         colFrom = new DataGridViewTextBoxColumn();
         colTo = new DataGridViewTextBoxColumn();
-        colNote = new DataGridViewTextBoxColumn();
-        colCreated = new DataGridViewTextBoxColumn();
+        colVarSymbol = new DataGridViewTextBoxColumn();
+        colDatumObj = new DataGridViewTextBoxColumn();
+        colZaplaceno = new DataGridViewTextBoxColumn();
+        colStav = new DataGridViewTextBoxColumn();
         _tabs.SuspendLayout();
         tabInfo.SuspendLayout();
         tabSubs.SuspendLayout();
@@ -242,11 +245,20 @@ partial class UserDetailForm
         _btnDeletePeriod.TabIndex = 2;
         _btnDeletePeriod.Text = "Smazat";
         _btnDeletePeriod.Click += BtnDeletePeriod_Click;
+        // _btnMarkPaid
+        _btnMarkPaid.Enabled = false;
+        _btnMarkPaid.Location = new Point(328, 6);
+        _btnMarkPaid.Name = "_btnMarkPaid";
+        _btnMarkPaid.Size = new Size(140, 23);
+        _btnMarkPaid.TabIndex = 3;
+        _btnMarkPaid.Text = "Označit zaplacené";
+        _btnMarkPaid.Click += BtnMarkPaid_Click;
 
         // subsToolbar
         subsToolbar.Controls.Add(_btnAddPeriod);
         subsToolbar.Controls.Add(_btnEditPeriod);
         subsToolbar.Controls.Add(_btnDeletePeriod);
+        subsToolbar.Controls.Add(_btnMarkPaid);
         subsToolbar.Dock = DockStyle.Top;
         subsToolbar.Location = new Point(0, 0);
         subsToolbar.Name = "subsToolbar";
@@ -254,17 +266,19 @@ partial class UserDetailForm
         subsToolbar.Size = new Size(676, 40);
         subsToolbar.TabIndex = 0;
 
-        // colFrom / colTo / colNote / colCreated
-        colFrom.FillWeight = 80F; colFrom.HeaderText = "Od"; colFrom.Name = "colFrom"; colFrom.ReadOnly = true;
-        colTo.FillWeight = 80F; colTo.HeaderText = "Do"; colTo.Name = "colTo"; colTo.ReadOnly = true;
-        colNote.HeaderText = "Poznámka"; colNote.Name = "colNote"; colNote.ReadOnly = true;
-        colCreated.FillWeight = 80F; colCreated.HeaderText = "Vytvořeno"; colCreated.Name = "colCreated"; colCreated.ReadOnly = true;
+        // columns
+        colFrom.FillWeight = 70F; colFrom.HeaderText = "Od"; colFrom.Name = "colFrom"; colFrom.ReadOnly = true;
+        colTo.FillWeight = 70F; colTo.HeaderText = "Do"; colTo.Name = "colTo"; colTo.ReadOnly = true;
+        colVarSymbol.HeaderText = "Variabilní symbol"; colVarSymbol.Name = "colVarSymbol"; colVarSymbol.ReadOnly = true;
+        colDatumObj.FillWeight = 80F; colDatumObj.HeaderText = "Datum obj."; colDatumObj.Name = "colDatumObj"; colDatumObj.ReadOnly = true;
+        colZaplaceno.FillWeight = 55F; colZaplaceno.HeaderText = "Zaplaceno"; colZaplaceno.Name = "colZaplaceno"; colZaplaceno.ReadOnly = true;
+        colStav.FillWeight = 65F; colStav.HeaderText = "Stav"; colStav.Name = "colStav"; colStav.ReadOnly = true;
 
         // _gridSubs
         _gridSubs.AllowUserToAddRows = false;
         _gridSubs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         _gridSubs.BackgroundColor = SystemColors.Window;
-        _gridSubs.Columns.AddRange(new DataGridViewColumn[] { colFrom, colTo, colNote, colCreated });
+        _gridSubs.Columns.AddRange(new DataGridViewColumn[] { colFrom, colTo, colVarSymbol, colDatumObj, colZaplaceno, colStav });
         _gridSubs.Dock = DockStyle.Fill;
         _gridSubs.Location = new Point(0, 0);
         _gridSubs.MultiSelect = false;
@@ -330,6 +344,7 @@ partial class UserDetailForm
     private Button _btnAddPeriod = null!;
     private Button _btnEditPeriod = null!;
     private Button _btnDeletePeriod = null!;
+    private Button _btnMarkPaid = null!;
     private TabPage tabInfo;
     private TabPage tabSubs;
     private Panel subsToolbar;
@@ -346,6 +361,8 @@ partial class UserDetailForm
     private Button btnSaveInfo;
     private DataGridViewTextBoxColumn colFrom;
     private DataGridViewTextBoxColumn colTo;
-    private DataGridViewTextBoxColumn colNote;
-    private DataGridViewTextBoxColumn colCreated;
+    private DataGridViewTextBoxColumn colVarSymbol;
+    private DataGridViewTextBoxColumn colDatumObj;
+    private DataGridViewTextBoxColumn colZaplaceno;
+    private DataGridViewTextBoxColumn colStav;
 }
