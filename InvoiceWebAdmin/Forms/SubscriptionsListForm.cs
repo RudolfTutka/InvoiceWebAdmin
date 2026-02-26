@@ -77,6 +77,7 @@ public partial class SubscriptionsListForm : Form
         var hasSelection = _grid.SelectedRows.Count > 0;
         _btnDetail.Enabled = hasSelection;
         _btnOpenUser.Enabled = hasSelection;
+        _btnDelete.Enabled = hasSelection;
 
         if (hasSelection)
         {
@@ -126,10 +127,29 @@ public partial class SubscriptionsListForm : Form
         LoadSubscriptions();
     }
 
+    private void DeletePeriod()
+    {
+        var id = SelectedPeriodId();
+        if (id == null) return;
+        var period = _filteredPeriods.FirstOrDefault(p => p.Id == id);
+        if (period == null) return;
+
+        var firma = period.User.CompanySettings?.CompanyName ?? period.User.Email;
+        var confirm = MessageBox.Show(
+            $"Smazat předplatné {period.From:d.M.yyyy} – {period.To:d.M.yyyy} ({firma})?",
+            "Potvrzení", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        if (confirm != DialogResult.Yes) return;
+
+        _db.SubscriptionPeriods.Remove(period);
+        _db.SaveChanges();
+        LoadSubscriptions();
+    }
+
     private void CmbFilter_SelectedIndexChanged(object sender, EventArgs e) => ApplyFilter();
     private void BtnDetail_Click(object sender, EventArgs e) => OpenDetail();
     private void BtnOpenUser_Click(object sender, EventArgs e) => OpenUser();
     private void BtnMarkPaid_Click(object sender, EventArgs e) => MarkPaidDirect();
+    private void BtnDelete_Click(object sender, EventArgs e) => DeletePeriod();
     private void Grid_SelectionChanged(object sender, EventArgs e) => UpdateButtons();
     private void Grid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => OpenDetail();
 }

@@ -66,7 +66,23 @@ public partial class SubscriptionDetailForm : Form
         Changed = true;
     }
 
+    private void EditPeriod(object? sender, EventArgs e)
+    {
+        using var form = new PeriodEditForm(_period, _period.From);
+        if (form.ShowDialog(this) != DialogResult.OK) return;
+
+        _period.From = form.PeriodFrom;
+        _period.To = form.PeriodTo;
+        _period.Note = form.PeriodNote;
+        _period.VariabilniSymbol = form.PeriodVariabilniSymbol;
+        _period.DatumObjednavky = form.PeriodDatumObjednavky;
+        _db.SaveChanges();
+        Changed = true;
+        LoadData();
+    }
+
     private void BtnMarkPaid_Click(object sender, EventArgs e) => MarkPaid(sender, e);
+    private void BtnEdit_Click(object sender, EventArgs e) => EditPeriod(sender, e);
     private void BtnOpenUser_Click(object sender, EventArgs e) => OpenUser(sender, e);
     private void BtnClose_Click(object sender, EventArgs e) => Close();
 }

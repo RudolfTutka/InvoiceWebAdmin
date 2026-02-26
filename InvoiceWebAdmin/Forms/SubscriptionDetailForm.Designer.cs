@@ -14,6 +14,7 @@ partial class SubscriptionDetailForm
     private void InitializeComponent()
     {
         _btnMarkPaid = new Button();
+        _btnEdit = new Button();
         _btnOpenUser = new Button();
         _btnClose = new Button();
         _lblFirmaVal = new Label();
@@ -28,7 +29,6 @@ partial class SubscriptionDetailForm
 
         const int lx = 12, lw = 160, cx = 180, vw = 320, rowH = 30;
 
-        // Helper to create a right-aligned label
         void AddLabel(Control parent, string text, int y)
         {
             var lbl = new Label
@@ -98,32 +98,38 @@ partial class SubscriptionDetailForm
         _lblStavVal.Font = new Font(Font, FontStyle.Bold);
         y += rowH + 16;
 
-        // Buttons
+        // Buttons – row 1
         _btnMarkPaid.Text = "Označit jako zaplacené";
         _btnMarkPaid.Left = lx; _btnMarkPaid.Top = y;
         _btnMarkPaid.Width = 170; _btnMarkPaid.Height = 28;
         _btnMarkPaid.Click += BtnMarkPaid_Click;
 
+        _btnEdit.Text = "Upravit";
+        _btnEdit.Left = lx + 178; _btnEdit.Top = y;
+        _btnEdit.Width = 90; _btnEdit.Height = 28;
+        _btnEdit.Click += BtnEdit_Click;
+
+        y += 36;
+
+        // Buttons – row 2
         _btnOpenUser.Text = "Otevřít uživatele";
-        _btnOpenUser.Left = lx + 178; _btnOpenUser.Top = y;
+        _btnOpenUser.Left = lx; _btnOpenUser.Top = y;
         _btnOpenUser.Width = 140; _btnOpenUser.Height = 28;
         _btnOpenUser.Click += BtnOpenUser_Click;
 
         _btnClose.Text = "Zavřít";
-        _btnClose.Left = lx + 326; _btnClose.Top = y;
+        _btnClose.Left = lx + 148; _btnClose.Top = y;
         _btnClose.Width = 90; _btnClose.Height = 28;
         _btnClose.Click += BtnClose_Click;
 
         y += 40;
 
-        // Add value labels
         Controls.AddRange(new Control[] {
             _lblFirmaVal, _lblEmailVal,
             _lblOdVal, _lblDoVal, _lblVarSymVal, _lblDatumObjVal, _lblZaplacenoVal, _lblStavVal,
-            _btnMarkPaid, _btnOpenUser, _btnClose
+            _btnMarkPaid, _btnEdit, _btnOpenUser, _btnClose
         });
 
-        // SubscriptionDetailForm
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(520, y);
@@ -137,6 +143,7 @@ partial class SubscriptionDetailForm
     }
 
     private Button _btnMarkPaid = null!;
+    private Button _btnEdit = null!;
     private Button _btnOpenUser = null!;
     private Button _btnClose = null!;
     private Label _lblFirmaVal = null!;

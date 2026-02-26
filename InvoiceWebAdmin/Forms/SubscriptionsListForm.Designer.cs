@@ -19,6 +19,7 @@ partial class SubscriptionsListForm
         _btnDetail = new Button();
         _btnOpenUser = new Button();
         _btnMarkPaid = new Button();
+        _btnDelete = new Button();
         _grid = new DataGridView();
         var colFirma = new DataGridViewTextBoxColumn();
         var colOd = new DataGridViewTextBoxColumn();
@@ -58,10 +59,15 @@ partial class SubscriptionsListForm
         _btnMarkPaid.Left = 470; _btnMarkPaid.Top = 6; _btnMarkPaid.Width = 140; _btnMarkPaid.Enabled = false;
         _btnMarkPaid.Click += BtnMarkPaid_Click;
 
+        // _btnDelete
+        _btnDelete.Text = "Smazat";
+        _btnDelete.Left = 618; _btnDelete.Top = 6; _btnDelete.Width = 90; _btnDelete.Enabled = false;
+        _btnDelete.Click += BtnDelete_Click;
+
         // _toolbar
         _toolbar.Dock = DockStyle.Top; _toolbar.Height = 44;
         _toolbar.Padding = new Padding(8, 6, 8, 6);
-        _toolbar.Controls.AddRange(new Control[] { _lblFilter, _cmbFilter, _btnDetail, _btnOpenUser, _btnMarkPaid });
+        _toolbar.Controls.AddRange(new Control[] { _lblFilter, _cmbFilter, _btnDetail, _btnOpenUser, _btnMarkPaid, _btnDelete });
 
         // columns
         colFirma.Name = "colFirma"; colFirma.HeaderText = "Firma";
@@ -107,5 +113,6 @@ partial class SubscriptionsListForm
     private Button _btnDetail = null!;
     private Button _btnOpenUser = null!;
     private Button _btnMarkPaid = null!;
+    private Button _btnDelete = null!;
     private DataGridView _grid = null!;
 }
