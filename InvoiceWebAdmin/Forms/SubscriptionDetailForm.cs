@@ -11,12 +11,13 @@ public partial class SubscriptionDetailForm : Form
     private SubscriptionPeriod _period = null!;
     public bool Changed { get; private set; } = false;
 
-    public SubscriptionDetailForm(AdminDbContext db, int periodId)
+    public SubscriptionDetailForm(AdminDbContext db, int periodId, bool showOpenUser = true)
     {
         _db = db;
         _periodId = periodId;
         InitializeComponent();
         LoadData();
+        _btnOpenUser.Visible = showOpenUser;
     }
 
     private void LoadData()

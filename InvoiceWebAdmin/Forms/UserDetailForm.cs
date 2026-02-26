@@ -154,22 +154,10 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var periodDisplay = _periods.First(p => p.Id == id);
 
-        using var form = new PeriodEditForm(periodDisplay, periodDisplay.From);
-        if (form.ShowDialog(this) != DialogResult.OK) return;
-
-        // Re-query tracked instance pro uložení
-        var period = GetTrackedPeriod(id.Value);
-        if (period == null) return;
-
-        period.From = form.PeriodFrom;
-        period.To = form.PeriodTo;
-        period.Note = form.PeriodNote;
-        period.VariabilniSymbol = form.PeriodVariabilniSymbol;
-        period.DatumObjednavky = form.PeriodDatumObjednavky;
-        _db.SaveChanges();
-        LoadPeriods();
+        using var form = new SubscriptionDetailForm(_db, id.Value, showOpenUser: false);
+        form.ShowDialog(this);
+        if (form.Changed) LoadPeriods();
     }
 
     private void DeletePeriod()
