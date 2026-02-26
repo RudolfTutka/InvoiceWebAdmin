@@ -43,7 +43,9 @@ public partial class UserDetailForm : Form
 
     private void LoadPeriods()
     {
+        // AsNoTracking zajistí vždy čerstvá data z DB bez vlivu identity mapu
         _periods = _db.SubscriptionPeriods
+            .AsNoTracking()
             .Where(p => p.UserId == _userId)
             .OrderByDescending(p => p.From)
             .ToList();
@@ -118,6 +120,10 @@ public partial class UserDetailForm : Form
     private int? SelectedPeriodId() =>
         _gridSubs.SelectedRows.Count > 0 ? (int?)_gridSubs.SelectedRows[0].Tag : null;
 
+    // Vrátí tracked entitu z DB (pro operace, které mění data)
+    private SubscriptionPeriod? GetTrackedPeriod(int id) =>
+        _db.SubscriptionPeriods.FirstOrDefault(p => p.Id == id);
+
     private void AddPeriod()
     {
         var lastTo = _periods
@@ -148,10 +154,14 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var period = _periods.First(p => p.Id == id);
+        var periodDisplay = _periods.First(p => p.Id == id);
 
-        using var form = new PeriodEditForm(period, period.From);
+        using var form = new PeriodEditForm(periodDisplay, periodDisplay.From);
         if (form.ShowDialog(this) != DialogResult.OK) return;
+
+        // Re-query tracked instance pro uložení
+        var period = GetTrackedPeriod(id.Value);
+        if (period == null) return;
 
         period.From = form.PeriodFrom;
         period.To = form.PeriodTo;
@@ -166,12 +176,15 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var period = _periods.First(p => p.Id == id);
+        var periodDisplay = _periods.First(p => p.Id == id);
 
         var confirm = MessageBox.Show(
-            $"Smazat období {period.From:d.M.yyyy} – {period.To:d.M.yyyy}?",
+            $"Smazat období {periodDisplay.From:d.M.yyyy} – {periodDisplay.To:d.M.yyyy}?",
             "Potvrzení", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
         if (confirm != DialogResult.Yes) return;
+
+        var period = GetTrackedPeriod(id.Value);
+        if (period == null) return;
 
         _db.SubscriptionPeriods.Remove(period);
         _db.SaveChanges();
@@ -182,8 +195,11 @@ public partial class UserDetailForm : Form
     {
         var id = SelectedPeriodId();
         if (id == null) return;
-        var period = _periods.First(p => p.Id == id);
-        if (period.Zaplaceno) return;
+        var periodDisplay = _periods.FirstOrDefault(p => p.Id == id);
+        if (periodDisplay == null || periodDisplay.Zaplaceno) return;
+
+        var period = GetTrackedPeriod(id.Value);
+        if (period == null) return;
 
         period.Zaplaceno = true;
         _user.IsActive = true;
