@@ -12,7 +12,6 @@ obj/
 *.user
 *.suo
 *.userprefs
-*.resx
 
 # Rider
 .idea/
