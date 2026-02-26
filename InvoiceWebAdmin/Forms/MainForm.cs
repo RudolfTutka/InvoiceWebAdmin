@@ -4,68 +4,16 @@ using InvoiceWebAdmin.Models;
 
 namespace InvoiceWebAdmin.Forms;
 
-public class MainForm : Form
+public partial class MainForm : Form
 {
     private readonly AdminDbContext _db;
-    private DataGridView _grid = null!;
-    private TextBox _searchBox = null!;
-    private Button _btnDetail = null!;
-    private Button _btnDelete = null!;
-    private Button _btnSettings = null!;
     private List<UserRow> _allRows = new();
 
     public MainForm(AdminDbContext db)
     {
         _db = db;
-        Text = "InvoiceWeb Admin";
-        Size = new Size(1000, 600);
-        StartPosition = FormStartPosition.CenterScreen;
-        BuildUi();
+        InitializeComponent();
         LoadUsers();
-    }
-
-    private void BuildUi()
-    {
-        var toolbar = new Panel { Dock = DockStyle.Top, Height = 44, Padding = new Padding(8, 6, 8, 6) };
-
-        var lblSearch = new Label { Text = "Hledat:", AutoSize = true, Left = 0, Top = 12 };
-        _searchBox = new TextBox { Left = 55, Top = 8, Width = 220 };
-        _searchBox.TextChanged += (_, _) => FilterUsers();
-
-        _btnDetail = new Button { Text = "Detail / Upravit", Left = 290, Top = 6, Width = 130, Enabled = false };
-        _btnDetail.Click += (_, _) => OpenDetail();
-
-        _btnDelete = new Button { Text = "Smazat", Left = 430, Top = 6, Width = 90, Enabled = false };
-        _btnDelete.Click += (_, _) => DeleteUser();
-
-        _btnSettings = new Button { Text = "Nastavení", Left = 540, Top = 6, Width = 100 };
-        _btnSettings.Click += (_, _) => OpenSettings();
-
-        toolbar.Controls.AddRange([lblSearch, _searchBox, _btnDetail, _btnDelete, _btnSettings]);
-        Controls.Add(toolbar);
-
-        _grid = new DataGridView
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-            MultiSelect = false,
-            AllowUserToAddRows = false,
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-            RowHeadersVisible = false,
-            BackgroundColor = SystemColors.Window
-        };
-        _grid.SelectionChanged += (_, _) => UpdateButtons();
-        _grid.CellDoubleClick += (_, _) => OpenDetail();
-        Controls.Add(_grid);
-
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colId", HeaderText = "ID", FillWeight = 30 });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colFirma", HeaderText = "Firma" });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colIco", HeaderText = "IČO", FillWeight = 60 });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEmail", HeaderText = "E-mail" });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colStav", HeaderText = "Stav", FillWeight = 70 });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPlatnyDo", HeaderText = "Platné do", FillWeight = 70 });
-        _grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "colRegistrace", HeaderText = "Registrace", FillWeight = 70 });
     }
 
     private void LoadUsers()
@@ -144,7 +92,7 @@ public class MainForm : Form
     {
         using var form = new SettingsForm(_db);
         form.ShowDialog(this);
-        LoadUsers(); // reload kvůli trial dnům
+        LoadUsers();
     }
 }
 

@@ -4,111 +4,18 @@ using InvoiceWebAdmin.Models;
 
 namespace InvoiceWebAdmin.Forms;
 
-public class UserDetailForm : Form
+public partial class UserDetailForm : Form
 {
     private readonly AdminDbContext _db;
     private readonly int _userId;
     private User _user = null!;
 
-    // Záložky
-    private TabControl _tabs = null!;
-
-    // Záložka Základní údaje
-    private TextBox _txtEmail = null!, _txtCompanyName = null!, _txtIco = null!, _txtDic = null!;
-    private CheckBox _chkActive = null!;
-    private TextBox _txtNewPassword = null!, _txtConfirmPassword = null!;
-    private Label _lblRegistrace = null!, _lblTrialDo = null!;
-
-    // Záložka Předplatné
-    private DataGridView _gridSubs = null!;
-    private Button _btnAddPeriod = null!, _btnEditPeriod = null!, _btnDeletePeriod = null!;
-
     public UserDetailForm(AdminDbContext db, int userId)
     {
         _db = db;
         _userId = userId;
-        Text = "Detail uživatele";
-        Size = new Size(700, 560);
-        StartPosition = FormStartPosition.CenterParent;
-        FormBorderStyle = FormBorderStyle.FixedDialog;
-        MaximizeBox = false;
-        BuildUi();
+        InitializeComponent();
         LoadData();
-    }
-
-    private void BuildUi()
-    {
-        _tabs = new TabControl { Dock = DockStyle.Fill };
-        Controls.Add(_tabs);
-
-        // === Záložka: Základní údaje ===
-        var tabInfo = new TabPage("Základní údaje");
-        _tabs.TabPages.Add(tabInfo);
-
-        int y = 16, lw = 140, fw = 300;
-        Label L(string text) => new Label { Text = text, Left = 12, Top = y, Width = lw, AutoSize = false, TextAlign = ContentAlignment.MiddleRight };
-        TextBox T(bool readOnly = false) { var t = new TextBox { Left = lw + 20, Top = y, Width = fw, ReadOnly = readOnly }; y += 32; return t; }
-
-        tabInfo.Controls.Add(L("E-mail:")); _txtEmail = T(); tabInfo.Controls.Add(_txtEmail);
-        tabInfo.Controls.Add(L("Název firmy:")); _txtCompanyName = T(); tabInfo.Controls.Add(_txtCompanyName);
-        tabInfo.Controls.Add(L("IČO:")); _txtIco = T(); tabInfo.Controls.Add(_txtIco);
-        tabInfo.Controls.Add(L("DIČ:")); _txtDic = T(); tabInfo.Controls.Add(_txtDic);
-
-        _chkActive = new CheckBox { Text = "Uživatel je aktivní", Left = lw + 20, Top = y, AutoSize = true };
-        tabInfo.Controls.Add(_chkActive); y += 32;
-
-        y += 8;
-        tabInfo.Controls.Add(new Label { Text = "──── Změna hesla ────", Left = 12, Top = y, Width = 400, Font = new Font(Font, FontStyle.Italic) }); y += 28;
-        tabInfo.Controls.Add(L("Nové heslo:")); _txtNewPassword = new TextBox { Left = lw + 20, Top = y, Width = fw, UseSystemPasswordChar = true }; tabInfo.Controls.Add(_txtNewPassword); y += 32;
-        tabInfo.Controls.Add(L("Potvrdit heslo:")); _txtConfirmPassword = new TextBox { Left = lw + 20, Top = y, Width = fw, UseSystemPasswordChar = true }; tabInfo.Controls.Add(_txtConfirmPassword); y += 32;
-
-        y += 8;
-        tabInfo.Controls.Add(new Label { Text = "──── Informace ────", Left = 12, Top = y, Width = 400, Font = new Font(Font, FontStyle.Italic) }); y += 28;
-        tabInfo.Controls.Add(L("Registrace:"));
-        _lblRegistrace = new Label { Left = lw + 20, Top = y, Width = fw, AutoSize = false }; tabInfo.Controls.Add(_lblRegistrace); y += 28;
-        tabInfo.Controls.Add(L("Trial vyprší:"));
-        _lblTrialDo = new Label { Left = lw + 20, Top = y, Width = fw, AutoSize = false }; tabInfo.Controls.Add(_lblTrialDo); y += 32;
-
-        var btnSaveInfo = new Button { Text = "Uložit změny", Left = lw + 20, Top = y, Width = 120 };
-        btnSaveInfo.Click += SaveBasicInfo;
-        tabInfo.Controls.Add(btnSaveInfo);
-
-        // === Záložka: Předplatné ===
-        var tabSubs = new TabPage("Předplatné");
-        _tabs.TabPages.Add(tabSubs);
-
-        var subsToolbar = new Panel { Dock = DockStyle.Top, Height = 40, Padding = new Padding(4, 6, 4, 4) };
-        _btnAddPeriod = new Button { Text = "Přidat období", Left = 4, Top = 6, Width = 120 };
-        _btnAddPeriod.Click += (_, _) => AddPeriod();
-        _btnEditPeriod = new Button { Text = "Upravit", Left = 132, Top = 6, Width = 90, Enabled = false };
-        _btnEditPeriod.Click += (_, _) => EditPeriod();
-        _btnDeletePeriod = new Button { Text = "Smazat", Left = 230, Top = 6, Width = 90, Enabled = false };
-        _btnDeletePeriod.Click += (_, _) => DeletePeriod();
-        subsToolbar.Controls.AddRange([_btnAddPeriod, _btnEditPeriod, _btnDeletePeriod]);
-        tabSubs.Controls.Add(subsToolbar);
-
-        _gridSubs = new DataGridView
-        {
-            Dock = DockStyle.Fill,
-            ReadOnly = true,
-            SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-            MultiSelect = false,
-            AllowUserToAddRows = false,
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-            RowHeadersVisible = false,
-            BackgroundColor = SystemColors.Window
-        };
-        _gridSubs.SelectionChanged += (_, _) =>
-        {
-            _btnEditPeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
-            _btnDeletePeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
-        };
-        _gridSubs.CellDoubleClick += (_, _) => EditPeriod();
-        _gridSubs.Columns.Add(new DataGridViewTextBoxColumn { Name = "colFrom", HeaderText = "Od", FillWeight = 80 });
-        _gridSubs.Columns.Add(new DataGridViewTextBoxColumn { Name = "colTo", HeaderText = "Do", FillWeight = 80 });
-        _gridSubs.Columns.Add(new DataGridViewTextBoxColumn { Name = "colNote", HeaderText = "Poznámka" });
-        _gridSubs.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCreated", HeaderText = "Vytvořeno", FillWeight = 80 });
-        tabSubs.Controls.Add(_gridSubs);
     }
 
     private void LoadData()
@@ -131,7 +38,6 @@ public class UserDetailForm : Form
         _lblTrialDo.Text = trialEnd.ToString("d.M.yyyy");
 
         Text = $"Detail uživatele – {_user.CompanySettings?.CompanyName ?? _user.Email}";
-
         LoadPeriods();
     }
 
@@ -162,7 +68,6 @@ public class UserDetailForm : Form
             return;
         }
 
-        // Změna hesla
         if (!string.IsNullOrEmpty(_txtNewPassword.Text))
         {
             if (_txtNewPassword.Text != _txtConfirmPassword.Text)
@@ -220,7 +125,6 @@ public class UserDetailForm : Form
         };
         _db.SubscriptionPeriods.Add(period);
         _db.SaveChanges();
-
         _user.SubscriptionPeriods.Add(period);
         LoadPeriods();
     }

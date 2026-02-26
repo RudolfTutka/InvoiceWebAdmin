@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using InvoiceWebAdmin.Database;
 using InvoiceWebAdmin.Forms;
 
+Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 ApplicationConfiguration.Initialize();
 
 var config = new ConfigurationBuilder()

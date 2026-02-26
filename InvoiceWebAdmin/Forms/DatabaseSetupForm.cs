@@ -4,70 +4,15 @@ using System.Text.Json;
 
 namespace InvoiceWebAdmin.Forms;
 
-public class DatabaseSetupForm : Form
+public partial class DatabaseSetupForm : Form
 {
-    private TextBox _txtPath = null!;
-    private Button _btnBrowse = null!;
-    private Button _btnTest = null!;
-    private Button _btnOk = null!;
-    private Label _lblStatus = null!;
-
     public string SelectedPath { get; private set; } = "";
 
     public DatabaseSetupForm(string currentPath)
     {
-        Text = "Nastavení cesty k databázi";
-        Size = new Size(540, 220);
-        StartPosition = FormStartPosition.CenterScreen;
-        FormBorderStyle = FormBorderStyle.FixedDialog;
-        MaximizeBox = false;
-        MinimizeBox = false;
-
-        BuildUi(currentPath);
-    }
-
-    private void BuildUi(string currentPath)
-    {
-        var lblInfo = new Label
-        {
-            Text = "Databáze nebyla nalezena. Zadejte cestu k souboru invoice.db:",
-            Left = 12, Top = 14, Width = 500, AutoSize = false, Height = 20
-        };
-
-        _txtPath = new TextBox
-        {
-            Left = 12, Top = 40, Width = 390,
-            Text = currentPath
-        };
-
-        _btnBrowse = new Button { Text = "Procházet…", Left = 410, Top = 38, Width = 100 };
-        _btnBrowse.Click += Browse;
-
-        _lblStatus = new Label
-        {
-            Left = 12, Top = 72, Width = 500, Height = 20,
-            ForeColor = Color.Gray, Text = ""
-        };
-
-        _btnTest = new Button { Text = "Otestovat připojení", Left = 12, Top = 100, Width = 150 };
-        _btnTest.Click += TestConnection;
-
-        _btnOk = new Button
-        {
-            Text = "Uložit a spustit", Left = 310, Top = 140, Width = 100,
-            DialogResult = DialogResult.OK, Enabled = false
-        };
-
-        var btnCancel = new Button
-        {
-            Text = "Zrušit", Left = 420, Top = 140, Width = 90,
-            DialogResult = DialogResult.Cancel
-        };
-
-        AcceptButton = _btnOk;
-        CancelButton = btnCancel;
-
-        Controls.AddRange([lblInfo, _txtPath, _btnBrowse, _lblStatus, _btnTest, _btnOk, btnCancel]);
+        InitializeComponent();
+        _txtPath.Text = currentPath;
+        _txtPath.TextChanged += (_, _) => { SetStatus("", Color.Gray); _btnOk.Enabled = false; };
     }
 
     private void Browse(object? sender, EventArgs e)
@@ -79,15 +24,12 @@ public class DatabaseSetupForm : Form
             CheckFileExists = true
         };
 
-        if (!string.IsNullOrWhiteSpace(_txtPath.Text) && File.Exists(Path.GetDirectoryName(_txtPath.Text) ?? ""))
-            dlg.InitialDirectory = Path.GetDirectoryName(_txtPath.Text);
+        var dir = Path.GetDirectoryName(_txtPath.Text);
+        if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir))
+            dlg.InitialDirectory = dir;
 
         if (dlg.ShowDialog() == DialogResult.OK)
-        {
             _txtPath.Text = dlg.FileName;
-            SetStatus("", Color.Gray);
-            _btnOk.Enabled = false;
-        }
     }
 
     private void TestConnection(object? sender, EventArgs e)
@@ -112,7 +54,6 @@ public class DatabaseSetupForm : Form
                 .UseSqlite($"Data Source={path}")
                 .Options;
             using var db = new AdminDbContext(options);
-            // Zkusí otevřít připojení – vyhodí výjimku pokud soubor není platná SQLite DB
             db.Database.OpenConnection();
             db.Database.CloseConnection();
 
@@ -133,9 +74,6 @@ public class DatabaseSetupForm : Form
         _lblStatus.ForeColor = color;
     }
 
-    /// <summary>
-    /// Uloží novou cestu do appsettings.json vedle spustitelného souboru.
-    /// </summary>
     public static void SavePath(string newPath)
     {
         var settingsFile = Path.Combine(AppContext.BaseDirectory, "appsettings.json");

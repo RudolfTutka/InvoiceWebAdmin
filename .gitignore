@@ -1,5 +1,8 @@
 ## .gitignore pro InvoiceWebAdmin
 
+# Build logy
+*.log
+
 # Build výstupy
 bin/
 obj/
