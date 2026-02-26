@@ -89,11 +89,11 @@ partial class UserDetailForm
 
         // subsToolbar
         _btnAddPeriod.Text = "Přidat období"; _btnAddPeriod.Left = 4; _btnAddPeriod.Top = 6; _btnAddPeriod.Width = 120;
-        _btnAddPeriod.Click += (_, _) => AddPeriod();
+        _btnAddPeriod.Click += BtnAddPeriod_Click;
         _btnEditPeriod.Text = "Upravit"; _btnEditPeriod.Left = 132; _btnEditPeriod.Top = 6; _btnEditPeriod.Width = 90; _btnEditPeriod.Enabled = false;
-        _btnEditPeriod.Click += (_, _) => EditPeriod();
+        _btnEditPeriod.Click += BtnEditPeriod_Click;
         _btnDeletePeriod.Text = "Smazat"; _btnDeletePeriod.Left = 230; _btnDeletePeriod.Top = 6; _btnDeletePeriod.Width = 90; _btnDeletePeriod.Enabled = false;
-        _btnDeletePeriod.Click += (_, _) => DeletePeriod();
+        _btnDeletePeriod.Click += BtnDeletePeriod_Click;
         subsToolbar.Dock = DockStyle.Top; subsToolbar.Height = 40; subsToolbar.Padding = new Padding(4, 6, 4, 4);
         subsToolbar.Controls.AddRange(new Control[] { _btnAddPeriod, _btnEditPeriod, _btnDeletePeriod });
 
@@ -106,11 +106,8 @@ partial class UserDetailForm
         _gridSubs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         _gridSubs.RowHeadersVisible = false;
         _gridSubs.BackgroundColor = SystemColors.Window;
-        _gridSubs.SelectionChanged += (_, _) => {
-            _btnEditPeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
-            _btnDeletePeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
-        };
-        _gridSubs.CellDoubleClick += (_, _) => EditPeriod();
+        _gridSubs.SelectionChanged += GridSubs_SelectionChanged;
+        _gridSubs.CellDoubleClick += GridSubs_CellDoubleClick;
 
         colFrom.Name = "colFrom"; colFrom.HeaderText = "Od"; colFrom.FillWeight = 80;
         colTo.Name = "colTo"; colTo.HeaderText = "Do"; colTo.FillWeight = 80;

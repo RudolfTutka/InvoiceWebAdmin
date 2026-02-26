@@ -94,6 +94,13 @@ public partial class MainForm : Form
         form.ShowDialog(this);
         LoadUsers();
     }
+
+    private void SearchBox_TextChanged(object sender, EventArgs e) => FilterUsers();
+    private void BtnDetail_Click(object sender, EventArgs e) => OpenDetail();
+    private void BtnDelete_Click(object sender, EventArgs e) => DeleteUser();
+    private void BtnSettings_Click(object sender, EventArgs e) => OpenSettings();
+    private void Grid_SelectionChanged(object sender, EventArgs e) => UpdateButtons();
+    private void Grid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => OpenDetail();
 }
 
 /// <summary>Pomocná třída pro zobrazení řádku uživatele v gridu.</summary>
@@ -113,7 +120,7 @@ internal class UserRow
         Id = user.Id;
         Email = user.Email;
         CompanyName = user.CompanySettings?.CompanyName;
-        Ico = user.CompanySettings?.Ico ?? user.Ico;
+        Ico = user.CompanySettings?.Ico;
         Registrace = user.CreatedAt.ToLocalTime().ToString("d.M.yyyy");
 
         var today = DateOnly.FromDateTime(DateTime.Today);

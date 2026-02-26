@@ -38,22 +38,22 @@ partial class MainForm
 
         // _searchBox
         _searchBox.Left = 55; _searchBox.Top = 8; _searchBox.Width = 220;
-        _searchBox.TextChanged += (_, _) => FilterUsers();
+        _searchBox.TextChanged += SearchBox_TextChanged;
 
         // _btnDetail
         _btnDetail.Text = "Detail / Upravit";
         _btnDetail.Left = 290; _btnDetail.Top = 6; _btnDetail.Width = 130; _btnDetail.Enabled = false;
-        _btnDetail.Click += (_, _) => OpenDetail();
+        _btnDetail.Click += BtnDetail_Click;
 
         // _btnDelete
         _btnDelete.Text = "Smazat";
         _btnDelete.Left = 430; _btnDelete.Top = 6; _btnDelete.Width = 90; _btnDelete.Enabled = false;
-        _btnDelete.Click += (_, _) => DeleteUser();
+        _btnDelete.Click += BtnDelete_Click;
 
         // _btnSettings
         _btnSettings.Text = "Nastavení";
         _btnSettings.Left = 540; _btnSettings.Top = 6; _btnSettings.Width = 100;
-        _btnSettings.Click += (_, _) => OpenSettings();
+        _btnSettings.Click += BtnSettings_Click;
 
         // _toolbar
         _toolbar.Dock = DockStyle.Top; _toolbar.Height = 44;
@@ -79,8 +79,8 @@ partial class MainForm
         _grid.RowHeadersVisible = false;
         _grid.BackgroundColor = SystemColors.Window;
         _grid.Columns.AddRange(colId, colFirma, colIco, colEmail, colStav, colPlatnyDo, colRegistrace);
-        _grid.SelectionChanged += (_, _) => UpdateButtons();
-        _grid.CellDoubleClick += (_, _) => OpenDetail();
+        _grid.SelectionChanged += Grid_SelectionChanged;
+        _grid.CellDoubleClick += Grid_CellDoubleClick;
 
         // MainForm
         AutoScaleDimensions = new SizeF(7F, 15F);

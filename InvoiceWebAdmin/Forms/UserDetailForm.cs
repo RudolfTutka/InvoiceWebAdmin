@@ -29,7 +29,7 @@ public partial class UserDetailForm : Form
 
         _txtEmail.Text = _user.Email;
         _txtCompanyName.Text = _user.CompanySettings?.CompanyName ?? "";
-        _txtIco.Text = _user.CompanySettings?.Ico ?? _user.Ico;
+        _txtIco.Text = _user.CompanySettings?.Ico ?? "";
         _txtDic.Text = _user.CompanySettings?.Dic ?? "";
         _chkActive.Checked = _user.IsActive;
 
@@ -160,5 +160,15 @@ public partial class UserDetailForm : Form
         _db.SaveChanges();
         _user.SubscriptionPeriods.Remove(period);
         LoadPeriods();
+    }
+
+    private void BtnAddPeriod_Click(object sender, EventArgs e) => AddPeriod();
+    private void BtnEditPeriod_Click(object sender, EventArgs e) => EditPeriod();
+    private void BtnDeletePeriod_Click(object sender, EventArgs e) => DeletePeriod();
+    private void GridSubs_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => EditPeriod();
+    private void GridSubs_SelectionChanged(object sender, EventArgs e)
+    {
+        _btnEditPeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
+        _btnDeletePeriod.Enabled = _gridSubs.SelectedRows.Count > 0;
     }
 }

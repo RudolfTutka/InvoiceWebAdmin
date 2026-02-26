@@ -12,6 +12,7 @@ public static class DatabaseInitializer
 
         // Přidat sloupce do existující DB InvoiceWebu (zpětná kompatibilita)
         try { context.Database.ExecuteSqlRaw("ALTER TABLE Users ADD COLUMN IsActive INTEGER NOT NULL DEFAULT 1"); } catch { }
+        try { context.Database.ExecuteSqlRaw("ALTER TABLE Users ADD COLUMN UpdatedAt TEXT NULL"); } catch { }
         try { context.Database.ExecuteSqlRaw(@"
             CREATE TABLE IF NOT EXISTS SubscriptionPeriods (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
